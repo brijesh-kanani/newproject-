@@ -1,0 +1,7 @@
+.clickable-row {
+    cursor: pointer;
+  }
+
+.mat-mdc-table .mdc-data-table__row:not(.mdc-data-table__row--selected).clickable-row:hover {
+    background:rgba(168, 174, 184, 0.12) !important; 
+  }

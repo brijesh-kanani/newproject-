@@ -1,0 +1,60 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            User Filter
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="filterForm" class="filter-form">
+
+        <div class="grid lg:grid-cols-9 md:grid-cols-8 gap-4">
+            <div class="lg:col-span-3 md:col-span-4 xl:col-span-2 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <input matInput formControlName="name" placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div class="lg:col-span-3 md:col-span-4 xl:col-span-2 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <input matInput formControlName="email" placeholder="Email">
+                </mat-form-field>
+            </div>
+            <div class="lg:col-span-3 md:col-span-4 xl:col-span-2 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <mat-select formControlName="role" placeholder="Select Role" multiple>
+                        <mat-option *ngFor="let role of roleList" [value]="role.roleId">
+                            {{role.roleName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="xl:col-span-2 lg:col-span-3 md:col-span-4 sm:col-span-4 col-span-8">
+                <!-- <mat-form-field class="w-full">
+                        <input matInput [matDatepicker]="toDate" formControlName="to_date" placeholder="To Date">
+                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                        <mat-datepicker #toDate></mat-datepicker>
+                    </mat-form-field> -->
+            </div>
+            <div class="lg:col-span-6 xl:col-span-1 col-span-8 text-end">
+                <button mat-raised-button color="primary" class="sm:w-28 w-full"
+                    (click)="applyFilters()">Search</button>
+            </div>
+        </div>
+        <!-- <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <mat-form-field class="w-full xl:w-6/12">
+                    <input matInput formControlName="name" placeholder="Name">
+                </mat-form-field>
+                <mat-form-field class="w-full xl:w-6/12">
+                    <input matInput formControlName="email" placeholder="Email">
+                </mat-form-field>
+                <mat-form-field class="w-full xl:w-6/12">
+                    <mat-select formControlName="role" placeholder="Select Role" multiple>
+                        <mat-option *ngFor="let role of roleList" [value]="role.roleId">
+                            {{role.roleName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="w-full hidden lg:block"></div>
+                <button mat-raised-button color="primary" class="sm:w-80 w-full"
+                    (click)="applyFilters()">Search</button>
+            </div> -->
+    </form>
+</mat-expansion-panel>

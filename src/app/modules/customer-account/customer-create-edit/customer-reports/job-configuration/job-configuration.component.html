@@ -1,0 +1,176 @@
+<form name="ftpForm" [formGroup]="jobForm">
+    <div class="w-full">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-1">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Job Title</mat-label>
+                    <input
+                        name="name"
+                        formControlName="customerName"
+                        matInput
+                    />
+                    <mat-error
+                        *ngIf="
+                            jobForm.get('customerName')?.hasError('required')
+                        "
+                        >Job Title is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-1">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>File Name</mat-label>
+                    <input
+                        name="fileName"
+                        formControlName="fileName"
+                        matInput
+                    />
+                    <mat-error
+                        *ngIf="jobForm.get('fileName')?.hasError('required')"
+                        >File Name is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-1">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Job Type</mat-label>
+                    <mat-select formControlName="jobType">
+                        <mat-option
+                            [value]="account.value"
+                            *ngFor="let account of JobTypeList"
+                        >
+                            {{ account.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="jobForm.get('jobType')?.hasError('required')"
+                        >Job Type is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-1">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Select Format</mat-label>
+                    <mat-select formControlName="format">
+                        <mat-option
+                            [value]="format.value"
+                            *ngFor="let format of formatList"
+                        >
+                            {{ format.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="jobForm.get('format')?.hasError('required')"
+                        >Format is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div
+                class="col-span-1"
+                *ngIf="jobForm.get('jobType').value == 'Ftp'"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Select FTP</mat-label>
+                    <mat-select formControlName="ftp">
+                        <mat-option
+                            [value]="ftp.value"
+                            *ngFor="let ftp of ftpList"
+                        >
+                            {{ ftp.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="jobForm.get('ftp')?.hasError('required')"
+                        >FTP is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div
+                class="col-span-1"
+                *ngIf="jobForm.get('jobType').value == 'Email'"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Select Email</mat-label>
+                    <mat-select formControlName="email" multiple>
+                        <mat-option
+                            [value]="email.value"
+                            *ngFor="let email of emailList"
+                        >
+                            {{ email.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="jobForm.get('email')?.hasError('required')"
+                        >Email is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <div
+                class="col-span-1"
+                *ngIf="jobForm.get('jobType').value == 'Email'"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Email Title</mat-label>
+                    <input
+                        name="fileName"
+                        formControlName="emailTitle"
+                        matInput
+                    />
+                    <mat-error
+                        *ngIf="jobForm.get('emailTitle')?.hasError('required')"
+                        >Email Title is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+
+            <!-- <div class="col-span-1">
+                <mat-form-field class="w-full " appearance="outline">
+                    <mat-label>Account Name</mat-label>
+                    <input
+                        [value]="userProfileData?.AccountName"
+                        name="accountName"
+                        formControlName="account"
+                        matInput
+                        [disabled]="disabledFields"
+                    />
+                </mat-form-field>
+            </div> -->
+
+            <div
+                class="col-span-1"
+                *ngIf="jobForm.get('jobType').value == 'Email'"
+            >
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Email Subject</mat-label>
+                    <input
+                        name="emailSubject"
+                        formControlName="emailSubject"
+                        matInput
+                    />
+                    <mat-error
+                        *ngIf="
+                            jobForm.get('emailSubject')?.hasError('required')
+                        "
+                        >Email Subject is required</mat-error
+                    >
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="flex justify-end mb-2 mr-4">
+            <button
+                matStepperNext
+                class="bg-orange-500"
+                mat-raised-button
+                [ngClass]="'bg-orange-500 rounded-full'"
+                (click)="jobFormSubmitted(jobForm)"
+            >
+                Next
+            </button>
+        </div>
+    </div>
+</form>

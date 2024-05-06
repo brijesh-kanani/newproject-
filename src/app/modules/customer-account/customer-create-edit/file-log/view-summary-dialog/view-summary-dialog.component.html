@@ -1,0 +1,158 @@
+<!-- <div class="user-header-dialog"> -->
+<div id="view-file-log">
+    <div class="bg-accent p-3">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-semibold text-white">{{data?.file_name}} file logs</span>
+            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-dialog-content>
+        <div>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header style="background-color: currentColor;">
+                    <mat-panel-title>
+                        File Log
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div id="file-logs-view-component" class="flex flex-col flex-auto min-w-0">
+                    <div>
+                        <div id="file-logs--viewcomponent" class="flex flex-col flex-auto min-w-0">
+                            <div class="flex-auto">
+                                <!-- <div>
+                        <app-file-log-filter (filtersApplied)="applyFileLogFilters($event)"></app-file-log-filter>
+                    </div> -->
+                                <!-- <div class="flex justify-start space-x-2 mr-6 mt-4">
+                        <button mat-raised-button color="primary" (click)="getFileLogList()">Refresh</button>
+                    </div> -->
+                                <div class="mt-4">
+                                    <div class="overflow-x-auto">
+                                        <table mat-table [dataSource]="fileLogDataSource" class="table" matSort
+                                            style="width: 800px;">
+
+                                            <!-- <ng-container matColumnDef="statusId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> StatusId </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.statusId}} </td>
+                                </ng-container> -->
+
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.status}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="description">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <div [matTooltip]="element.description">
+                                                        {{element.description ? element.description.length > 200 ?
+                                                        element.description.slice(0,200) + '...' : element.description :
+                                                        element.description}}
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="createAt">
+                                                <th class="w-32" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    CreateAt
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element.createdAt | date:'dd-MM-yyyy'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- <mat-paginator class="flex justify-end" [pageSizeOptions]="[10, 20,30,50,100,500]"
+                            showFirstLastButtons aria-label="Select page of periodic elements">
+                        </mat-paginator> -->
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </div>
+
+        <div class="mt-6">
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header style="background-color: currentColor;">
+                    <mat-panel-title>
+                        File Line Log
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div id="file-logs-view-component" class="flex flex-col flex-auto min-w-0">
+                    <div>
+                        <div id="file-logs--viewcomponent" class="flex flex-col flex-auto min-w-0">
+                            <div class="flex-auto">
+                                <!-- <div>
+                            <app-file-log-filter (filtersApplied)="applyFileLogFilters($event)"></app-file-log-filter>
+                        </div> -->
+                                <!-- <div class="flex justify-start space-x-2 mr-6 mt-4">
+                            <button mat-raised-button color="primary" (click)="getFileLogList()">Refresh</button>
+                        </div> -->
+                                <div class="mt-4">
+                                    <div class="overflow-x-auto">
+                                        <table mat-table [dataSource]="fileLineLogDataSource" class="table" matSort
+                                            style="width: 800px;">
+
+                                            <!-- <ng-container matColumnDef="statusId">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> StatusId </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.statusId}} </td>
+                                    </ng-container> -->
+
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.status}}
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="description">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    <div [matTooltip]="element.description">
+                                                        {{element.description ? element.description.length > 200 ?
+                                                        element.description.slice(0,200) + '...' : element.description :
+                                                        element.description}}
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="createAt">
+                                                <th class="w-32" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    CreateAt
+                                                </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                    {{element.createdAt | date:'dd-MM-yyyy'}}
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- <mat-paginator class="flex justify-end" [pageSizeOptions]="[10, 20,30,50,100,500]"
+                                showFirstLastButtons aria-label="Select page of periodic elements">
+                            </mat-paginator> -->
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </div>
+    </mat-dialog-content>
+</div>
+<!-- <mat-dialog-actions class="flex justify-center space-x-2 m-3">
+        <button mat-button (click)="dialogRef.close()"
+            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+    </mat-dialog-actions> -->

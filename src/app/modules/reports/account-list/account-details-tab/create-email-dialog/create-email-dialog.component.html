@@ -1,0 +1,82 @@
+<div class="bg-accent p-3">
+    <div class="flex justify-between items-center">
+        <div>
+            <span class="text-xl font-semibold text-white">{{data.action == 'create' ? 'Add' : 'Update'}} Email
+                Details</span>
+        </div>
+        <div>
+            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                <mat-icon class="text-white">close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <form name="emailForm" [formGroup]="emailForm">
+        <fieldset>
+            <legend>
+                <h3 style="font-weight: 600; padding:0px 4px">Email Details</h3>
+            </legend>
+            <div class="tab-content">
+                <div class="main-content">
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Username</mat-label>
+                            <input name="username" formControlName="username" matInput>
+                            <mat-error *ngIf="emailForm.get('username')?.hasError('required')">Username
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row  w-full">
+                            <mat-label>Title</mat-label>
+                            <input name="name" formControlName="title" matInput>
+                            <mat-error *ngIf="emailForm.get('title')?.hasError('required')">Title
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="main-content">
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Email</mat-label>
+                            <input name="name" formControlName="email" matInput>
+                            <mat-error *ngIf="emailForm.get('email')?.hasError('required')">Email
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Subject</mat-label>
+                            <input name="name" formControlName="subject" matInput>
+                            <mat-error *ngIf="emailForm.get('subject')?.hasError('required')">Subject
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- <div class="create-ftp ml-12 mb-8" *ngIf="!account.ftp">
+        <div>
+            FTP was not found in this account
+        </div>
+    </div> -->
+            <!-- <div class="flex justify-end m-4">
+
+            </div> -->
+        </fieldset>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center space-x-2 m-3">
+    <button mat-button (click)="dialogRef.close()"
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+    <button [disabled]="emailForm.invalid" mat-button (click)="saveFtp()"
+        [ngClass]="emailForm.invalid ? 'bg-gray-300 rounded-lg' : 'bg-orange-500 rounded-lg'">
+        Save
+    </button>
+</mat-dialog-actions>

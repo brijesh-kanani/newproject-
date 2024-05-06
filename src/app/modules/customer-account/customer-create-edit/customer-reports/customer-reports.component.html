@@ -1,0 +1,21 @@
+<div id="file-logs-component" class="flex flex-col flex-auto min-w-0">
+    <div>
+        <div id="file-logs-component" class="flex flex-col flex-auto min-w-0">
+            <div class="flex-auto mb-4 ml-6 mr-6">
+                <app-report-job-list *ngIf="reportList"></app-report-job-list>
+                <app-job-add-stepper *ngIf="!reportList"></app-job-add-stepper>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 right-0 m-4">
+        <div
+            *ngIf="reportList"
+            (click)="AddReport()"
+            matTooltip="Create Job"
+            class="flex items-center justify-center w-12 h-12 bg-orange-500 rounded-full shadow-lg cursor-pointer"
+        >
+            <mat-icon class="text-white text-3xl">add</mat-icon>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="bg-accent p-3">
+    <div class="flex justify-between items-center">
+        <div>
+            <span class="text-xl font-semibold text-white"
+                >{{ data.action == "create" ? "Create" : "Update" }} FTP Details
+                {{ data.data?.reportName }}</span
+            >
+        </div>
+        <div>
+            <button
+                mat-icon-button
+                (click)="close('close')"
+                aria-label="Close dialog"
+            >
+                <mat-icon class="text-white">close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<mat-dialog-content>
+    <form [formGroup]="reportForm">
+        <div class="grid grid-cols-2 gap-4">
+            <mat-form-field appearance="outline" class="col-span-1">
+                <mat-label> File Name </mat-label>
+                <input
+                    name="filename"
+                    type="text"
+                    formControlName="filename"
+                    matInput
+                />
+                <mat-error
+                    *ngIf="reportForm.get('filename')?.hasError('required')"
+                    >File Name is required</mat-error
+                >
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-span-1">
+                <mat-label> Format </mat-label>
+
+                <mat-select
+                    name="format"
+                    type="text"
+                    formControlName="format"
+                    matInput
+                >
+                    <mat-option
+                        *ngFor="let format of formatType"
+                        [value]="format.value"
+                        >{{ format.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="reportForm.get('format')?.hasError('required')"
+                    >Format is required</mat-error
+                >
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-span-1">
+                <mat-label> Interval </mat-label>
+                <input
+                    name="interval"
+                    type="text"
+                    formControlName="interval"
+                    matInput
+                />
+                <mat-error
+                    *ngIf="reportForm.get('interval')?.hasError('required')"
+                    >Interval is required</mat-error
+                >
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center space-x-2 m-3">
+    <button
+        mat-button
+        (click)="close('close')"
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+    >
+        Cancel
+    </button>
+    <button
+        mat-button
+        [ngClass]="
+            reportForm.invalid
+                ? 'bg-gray-300 rounded-lg'
+                : 'bg-orange-500 rounded-lg'
+        "
+        (click)="close('save')"
+    >
+        Save
+    </button>
+</mat-dialog-actions>

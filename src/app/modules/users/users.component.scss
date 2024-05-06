@@ -1,0 +1,31 @@
+#user-component {
+    .btn-secondary {
+        @apply px-4 py-2 rounded-md bg-gray-300 text-gray-700 hover:bg-gray-400 focus:outline-none;
+    }
+
+    .mat-mdc-paginator .mat-mdc-paginator-container {
+        justify-content: end !important;
+    }
+
+    .active {
+        color: green
+    }
+
+    .deactive {
+        color: red;
+    }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0 !important;
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-icon-button,
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+    min-height: 0px !important;
+}

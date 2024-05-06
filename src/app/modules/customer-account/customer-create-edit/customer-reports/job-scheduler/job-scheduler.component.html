@@ -1,0 +1,81 @@
+<form name="ftpForm" [formGroup]="ftpForm">
+    <h3 class="text-lg" style="font-weight: 600; padding: 0px 4px">
+        Batch Details
+    </h3>
+
+    <div class="tab-content">
+        <mat-form-field class="w-full">
+            <mat-label>Batch Name</mat-label>
+            <input name="name" formControlName="name" matInput />
+            <mat-error *ngIf="ftpForm.get('name')?.hasError('required')"
+                >Batch Name is required</mat-error
+            >
+        </mat-form-field>
+
+        <h3 style="font-weight: 600">Frequency Types</h3>
+        <div class="w-full">
+            <div class="grid grid-cols-12 gap-4 mt-4">
+                <div
+                    class="xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-3 xs:col-span-12 col-span-12"
+                >
+                    <div class="flex flex-col">
+                        <mat-radio-group
+                            aria-labelledby="example-radio-group-label"
+                            class="example-radio-group"
+                            [name]="groupName"
+                            *ngFor="let type of cronType"
+                            (change)="getCronType($event)"
+                            [value]="selectedCronType"
+                        >
+                            <mat-radio-button
+                                class="example-radio-button"
+                                [value]="type.val"
+                                >{{ type.title }}</mat-radio-button
+                            >
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div
+                    *ngIf="windowWidth !== 'small'"
+                    class="col-span-1 flex justify-end"
+                >
+                    <div class="vertical-line"></div>
+                </div>
+
+                <div
+                    class="xl:col-span-8 lg:col-span-8 md:col-span-8 sm:col-span-8 xs:col-span-12 col-span-12"
+                >
+                    <app-frequency-show
+                        [type]="selectedCronType"
+                        [cronExpression]="getCronExpression()"
+                        (changeType)="changeFrequencyType($event)"
+                        (newExpression)="generatedExpression($event)"
+                    ></app-frequency-show>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="create-ftp ml-12 mb-8" *ngIf="!account.ftp">
+                        <div>
+                            FTP was not found in this account
+                        </div>
+                    </div> -->
+    <!-- <div class="flex justify-end m-4">
+                
+                            </div> -->
+</form>
+
+<div class="flex justify-center space-x-2 m-3">
+    <button
+        [disabled]="ftpForm.invalid"
+        mat-button
+        (click)="saveFtp()"
+        [ngClass]="
+            ftpForm.invalid
+                ? 'bg-gray-300 rounded-full'
+                : 'bg-orange-500 rounded-full'
+        "
+    >
+        Save
+    </button>
+</div>

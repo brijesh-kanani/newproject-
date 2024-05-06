@@ -1,0 +1,192 @@
+<div class="bg-accent p-3">
+    <div class="flex justify-between items-center">
+        <div>
+            <span class="text-xl font-semibold text-white"
+                >{{ data.action == "create" ? "Create" : "Update" }} Template
+                Details</span
+            >
+        </div>
+        <div>
+            <button
+                mat-icon-button
+                (click)="dialogRef.close()"
+                aria-label="Close dialog"
+            >
+                <mat-icon class="text-white">close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <form [formGroup]="templateForm" class="template-form">
+        <fieldset>
+            <legend>
+                <h3 style="font-weight: 600; padding: 0px 4px">
+                    Template Details
+                </h3>
+            </legend>
+            <div class="grid grid-cols-2 p-5 gap-4">
+                <div class="md:col-span-1 lg:col-span-1 col-span-2">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Template Name</mat-label>
+                        <input
+                            placeholder="Template Name"
+                            name="templateName"
+                            formControlName="templateName"
+                            matInput
+                        />
+                        <mat-error
+                            *ngIf="
+                                templateForm
+                                    .get('templateName')
+                                    ?.hasError('required')
+                            "
+                            >Template Name is required</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+
+                <div class="md:col-span-1 lg:col-span-1 col-span-2">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Description</mat-label>
+                        <input
+                            placeholder="Description"
+                            name="description"
+                            formControlName="description"
+                            matInput
+                        />
+                        <mat-error
+                            *ngIf="
+                                templateForm
+                                    .get('description')
+                                    ?.hasError('required')
+                            "
+                            >Description is required</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div
+                    class="md:col-span-1 lg:col-span-1 sm:col-span-1 col-span-2"
+                >
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Report Name</mat-label>
+                        <mat-select
+                            matNativeControl
+                            required
+                            placeholder="Select Report Name"
+                            formControlName="reportName"
+                            (closed)="resetFilter()"
+                        >
+                            <mat-form-field class="w-full p-2">
+                                <input
+                                    matInput
+                                    placeholder="Search Report"
+                                    formControlName="reportFilterValue"
+                                    (keyup)="changeSearch('Report')"
+                                />
+                            </mat-form-field>
+                            <div
+                                *ngIf="filterReport.length === 0"
+                                class="w-full pl-2 text-slate-400 text-md"
+                            >
+                                No Reports Found
+                            </div>
+                            <mat-option
+                                *ngFor="let report of filterReport"
+                                [value]="report?.value"
+                                >{{ report?.name }}</mat-option
+                            >
+                        </mat-select>
+                        <mat-error
+                            *ngIf="
+                                templateForm
+                                    .get('reportName')
+                                    ?.hasError('required')
+                            "
+                            >Report Name is required</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div
+                    class="md:col-span-1 lg:col-span-1 sm:col-span-1 col-span-2"
+                >
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Format Type</mat-label>
+
+                        <mat-select
+                            required
+                            placeholder="Select Format Type"
+                            formControlName="formatType"
+                            (closed)="resetFilter()"
+                        >
+                            <mat-form-field class="w-full p-2">
+                                <input
+                                    matInput
+                                    placeholder="Search Format"
+                                    formControlName="formatFilterValue"
+                                    (keyup)="changeSearch('Format')"
+                                />
+                            </mat-form-field>
+
+                            <div
+                                *ngIf="filterFormat.length === 0"
+                                class="w-full pl-2 text-slate-400 text-md"
+                            >
+                                No Formats Found
+                            </div>
+
+                            <mat-option
+                                *ngFor="let format of filterFormat"
+                                [value]="format?.value"
+                            >
+                                {{ format?.name }}</mat-option
+                            >
+                        </mat-select>
+                        <mat-error
+                            *ngIf="
+                                templateForm
+                                    .get('formatType')
+                                    ?.hasError('required')
+                            "
+                            >Format Type is required</mat-error
+                        >
+                    </mat-form-field>
+                </div>
+
+                <!-- Status -->
+                <div
+                    class="md:col-span-1 lg:col-span-1 sm:col-span-1 col-span-2"
+                >
+                    <section class="example-section">
+                        <mat-checkbox
+                            class="example-margin"
+                            formControlName="isActive"
+                            >Active Template</mat-checkbox
+                        >
+                    </section>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center space-x-2 m-3">
+    <button
+        mat-button
+        (click)="dialogRef.close()"
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+    >
+        Cancel
+    </button>
+    <button
+        [disabled]="templateForm.invalid"
+        (click)="handleSubmit()"
+        mat-button
+        [ngClass]="
+            templateForm.invalid
+                ? 'bg-gray-300 rounded-lg'
+                : 'bg-orange-500 rounded-lg'
+        "
+    >
+        Save
+    </button>
+</mat-dialog-actions>

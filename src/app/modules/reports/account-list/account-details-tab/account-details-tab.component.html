@@ -1,0 +1,55 @@
+<div id="customer" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg grey-800 headeraccount"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header grey-800" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo">
+                <button mat-icon-button class="back-arrow-style" [routerLink]="['/reports/accounts']">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <mat-icon class="logo-icon s-32">
+                    account_circle
+                </mat-icon>
+                <span class="logo-text h1 pr-12">{{userName || '-'}}</span>
+            </div>
+            <!-- <div fxLayout="row wrap">
+                <div class="item">
+                    <mat-icon>account_circle</mat-icon>
+                </div>
+                <div class="item accountName">
+                    <span></span>
+                </div>
+            </div> -->
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <mat-card>
+            <!-- CONTENT -->
+            <div class="content">
+                <mat-tab-group>
+
+                    <mat-tab label="FTP Details">
+                        <app-report-ftp-details></app-report-ftp-details>
+                    </mat-tab>
+                    <mat-tab label="Default Emails">
+                        <app-report-email-details></app-report-email-details>
+                    </mat-tab>
+                </mat-tab-group>
+
+                <!-- /CONTENT -->
+            </div>
+        </mat-card>
+        <!-- CONTENT CARD -->
+
+    </div>
+
+</div>

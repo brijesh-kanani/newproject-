@@ -1,0 +1,109 @@
+<div class="main-dialog p-0">
+    <div class="bg-accent p-3">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-semibold text-white">Conditional Mapping</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div mat-dialog-content class="flex flex-col space-y-6 p-6">
+        <div>
+            <mat-form-field class="w-60">
+                <mat-label>Select Conditional Mapping</mat-label>
+                <mat-select placeholder="Select Conditional Mapping" [(ngModel)]="conditionalMappingValue"
+                    (selectionChange)="changeConditionalMapping($event.value)">
+                    <mat-option *ngFor="let item of conditionalDataList" [value]="item.value">{{ item.name
+                        }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Separator Column -->
+                <ng-container matColumnDef="separator" *ngIf="!eithercolumn">
+                    <mat-header-cell *matHeaderCellDef>{{(firstorlast) || (lastornothing) ? 'Select Column 1' :
+                        'Select Separator'}}</mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index">
+                        <div *ngIf="i !== 0 && !eithercolumn" class="w-full mt-5">
+                            <mat-form-field *ngIf="(!firstorlast) && (!lastornothing)" class="w-full">
+                                <mat-select [(ngModel)]="element.separator" required>
+                                    <mat-option *ngFor="let option of sepratorDropdownDataList" [value]="option.value">
+                                        {{ option.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="(firstorlast) || (lastornothing)" class="w-full mt-5">
+                            <mat-form-field class="w-full">
+                                <mat-select [(ngModel)]="element.separator"
+                                    (selectionChange)="checkSelection($event.value,i,'separator')" required>
+                                    <mat-option *ngFor="let option of csvDropdownDataList" [value]="option">{{ option
+                                        }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Column Column -->
+                <ng-container matColumnDef="column">
+                    <mat-header-cell *matHeaderCellDef>{{(firstorlast) || (lastornothing) ? 'Select Column 2' :
+                        'Select Column'}}</mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index">
+                        <mat-form-field [ngClass]="eithercolumn ? 'w-1/2 mt-5' : 'w-full mt-5'"
+                            *ngIf="(!firstorlast) && (!lastornothing)">
+                            <mat-select [(ngModel)]="element.column" required
+                                (selectionChange)="removeOtherColumnOption($event.value,i)">
+                                <mat-option *ngFor="let option of csvDropdownDataList" [value]="option">{{ option
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field [ngClass]="eithercolumn ? 'w-1/2 mt-5' : 'w-full mt-5'"
+                            *ngIf="(firstorlast) || (lastornothing)">
+                            <mat-select [(ngModel)]="element.column" required
+                                (selectionChange)="checkSelection($event.value,i,'column')">
+                                <mat-option *ngFor="let option of csvDropdownDataList" [value]="option">{{ option
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <!-- <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let element;let i of index">
+                    <div class="flex justify-end">
+                        <button mat-icon-button (click)="deleteRow(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </mat-cell>
+            </ng-container> -->
+
+                <mat-header-row
+                    *matHeaderRowDef="eithercolumn ? eitherdisplayedColumns : displayedColumns"></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: eithercolumn ? eitherdisplayedColumns : displayedColumns"></mat-row>
+            </mat-table>
+            <div class="flex justify-end mt-4" *ngIf="(!firstorlast) && (!lastornothing)">
+                <a class="add-row" (click)="addDropdown()" aria-label="Add dropdown">
+                    Add Row
+                </a>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="m-0 pt-0 mt-3 flex justify-end items-center mb-4 pr-6">
+            <button class="bg-accent hover:bg-accent-dark px-4 py-2 rounded-lg mr-2 text-white"
+                (click)="saveMultipleMapping()">
+                {{_data.multipleMapping.multipleMapping && _data.multipleMapping.multipleMapping.length > 0 ? 'Update' :
+                'Save'}}
+            </button>
+            <button class="px-4 py-2 border rounded-lg text-black" (click)="matDialogRef.close()">
+                Cancel
+            </button>
+        </div>
+    </div>

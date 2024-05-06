@@ -1,0 +1,16 @@
+@media screen and (min-width: 600px) and (max-width: 960px) {
+    .custom-md-half {
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+
+    .custom-md-half-select {
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .custom-full-width {
+        width: 100% !important;
+    }
+}

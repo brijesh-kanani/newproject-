@@ -1,0 +1,499 @@
+<div id="customer" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg grey-800 headeraccount"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header grey-800" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo">
+                <button mat-icon-button class="back-arrow-style" [routerLink]="['/reports/jobs']">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <mat-icon class="logo-icon s-32">
+                    account_circle
+                </mat-icon>
+                <span class="logo-text h1 pr-12">{{this.batchesService.jobDetailsData?.type == 'edit' ? 'Edit' :
+                    'Create'}} Job</span>
+            </div>
+        </div>
+
+        <!-- <div id="job-component" class="flex flex-col flex-auto min-w-0">
+    <div class="batch-view-header">
+        <button matTooltip="back" mat-icon-button (click)="goBack()">
+            <mat-icon class="text-3xl mt-1">arrow_back</mat-icon>
+        </button>
+    </div> -->
+
+        <!-- Main -->
+        <!-- <div> -->
+        <mat-card>
+            <!-- CONTENT -->
+            <div class="content">
+                <!-- <div class="flex-auto mb-4 ml-6 mr-6 mt-4"> -->
+
+                <div class="job-content job-part mat-elevation-z8 bg-white">
+                    <!-- <div class="font-bold pt-4 pl-8">
+                        Job Details
+                    </div> -->
+                    <form name="ftpForm" [formGroup]="jobForm">
+                        <div class="tab-content">
+
+                            <div class="main-content">
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Job Title</mat-label>
+                                        <input name="name" formControlName="customerName" matInput>
+                                        <mat-error *ngIf="jobForm.get('customerName')?.hasError('required')">Job Title
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>File Name</mat-label>
+                                        <input name="fileName" formControlName="fileName" matInput>
+                                        <mat-error *ngIf="jobForm.get('fileName')?.hasError('required')">File Name
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content" *ngIf="jobForm.get('jobType').value=='Ftp'">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Select FTP</mat-label>
+                                        <mat-select formControlName="ftp">
+                                            <mat-option [value]="ftp.value" *ngFor="let ftp of ftpList">
+                                                {{ftp.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('ftp')?.hasError('required')">FTP
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content" *ngIf="jobForm.get('jobType').value=='Email'">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Select Email</mat-label>
+                                        <mat-select formControlName="email">
+                                            <mat-option [value]="email.value" *ngFor="let email of emailList">
+                                                {{email.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('email')?.hasError('required')">Email
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content" *ngIf="jobForm.get('jobType').value=='Email'">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Email Title</mat-label>
+                                        <input name="fileName" formControlName="emailTitle" matInput>
+                                        <mat-error *ngIf="jobForm.get('emailTitle')?.hasError('required')">Email Title
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Select Format</mat-label>
+                                        <mat-select formControlName="format">
+                                            <mat-option [value]="format.value" *ngFor="let format of formatList">
+                                                {{format.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('format')?.hasError('required')">Format
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="main-content">
+
+                                <div class="content">
+                                    <mat-form-field class="w-full account-row" appearance="outline">
+                                        <mat-label>Select Account</mat-label>
+                                        <mat-select placeholder="Select Account" formControlName="account"
+                                            (openedChange)="searchAccount.setValue('')">
+                                            <mat-form-field class="w-full p-2">
+                                                <input matInput #input placeholder="Search Account"
+                                                    [formControl]="searchAccount"
+                                                    (keydown)="onKeydown($event, input)" />
+                                                <mat-icon matSuffix class="secondary-text" style="cursor: pointer"
+                                                    *ngIf="searchAccount?.value"
+                                                    (click)="searchAccount.setValue('')">close
+                                                </mat-icon>
+                                            </mat-form-field>
+                                            <mat-option *ngFor="let account of filterAccountList | async"
+                                                [value]="account.AccountNumber">{{account.AccountName}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('account')?.hasError('required')">Account
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Job Type</mat-label>
+                                        <mat-select formControlName="jobType">
+                                            <mat-option [value]="account.value" *ngFor="let account of JobTypeList">
+                                                {{account.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('jobType')?.hasError('required')">Job Type
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content" *ngIf="jobForm.get('jobType').value=='Email'">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Email Subject</mat-label>
+                                        <input name="emailSubject" formControlName="emailSubject" matInput>
+                                        <mat-error *ngIf="jobForm.get('emailSubject')?.hasError('required')">Email
+                                            Subject
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Select Report</mat-label>
+                                        <mat-select formControlName="report">
+                                            <mat-option [value]="report.value" *ngFor="let report of reportList">
+                                                {{report.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="jobForm.get('report')?.hasError('required')">Report
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div> -->
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- <div class="job-content job-part mt-4 mat-elevation-z8 bg-white" *ngIf="jobForm.get('jobType').value">
+                <div class="font-bold pt-4 pl-8">
+                    {{jobForm.get('jobType').value=='Ftp' ? 'FTP' : 'Email'}} Job Details
+                </div>
+                <div>
+                    <form name="ftpForm" [formGroup]="ftpForm" *ngIf="jobForm.get('jobType').value=='Ftp'">
+                        <div class="tab-content">
+
+                            <div class="main-content">
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Name</mat-label>
+                                        <input name="name" formControlName="name" matInput>
+                                        <mat-error *ngIf="ftpForm.get('name')?.hasError('required')">Name
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Host</mat-label>
+                                        <input name="name" formControlName="host" matInput>
+                                        <mat-error *ngIf="ftpForm.get('host')?.hasError('required')">Host
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row  w-full">
+                                        <mat-label>Folder Name</mat-label>
+                                        <input name="name" formControlName="folderName" matInput>
+                                        <mat-error *ngIf="ftpForm.get('folderName')?.hasError('required')">Folder
+                                            Name
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Archive Folder</mat-label>
+                                        <input name="name" type="text" formControlName="archiveFolder" matInput>
+                                        <mat-error *ngIf="ftpForm.get('archiveFolder')?.hasError('required')">Archive
+                                            Folder
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="main-content">
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>FTP User</mat-label>
+                                        <input name="name" formControlName="username" matInput>
+                                        <mat-error *ngIf="ftpForm.get('username')?.hasError('required')">FTP User
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Password</mat-label>
+                                        <input name="name" type="text" formControlName="password" matInput>
+                                        <mat-error *ngIf="ftpForm.get('password')?.hasError('required')">Password
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row  w-full">
+                                        <mat-label>Port</mat-label>
+                                        <input name="name" formControlName="port" matInput>
+                                        <mat-error *ngIf="ftpForm.get('port')?.hasError('required')">Port
+                                            is required</mat-error>
+                                        <mat-error *ngIf="ftpForm.get('port')?.hasError('pattern')">Only Allow
+                                            Number</mat-error>
+                                        <mat-error *ngIf="ftpForm.get('port')?.hasError('maxlength')">Max 8
+                                            Character
+                                            Allow</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <form name="emailForm" [formGroup]="emailForm" *ngIf="jobForm.get('jobType').value=='Email'">
+                        <div class="tab-content">
+
+                            <div class="main-content">
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Title</mat-label>
+                                        <input name="title" formControlName="title" matInput>
+                                        <mat-error *ngIf="emailForm.get('title')?.hasError('required')">Title
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="content">
+                                    <mat-form-field appearance="outline" class="account-row w-full">
+                                        <mat-label>Subject</mat-label>
+                                        <input name="subject" formControlName="subject" matInput>
+                                        <mat-error *ngIf="emailForm.get('subject')?.hasError('required')">Subject
+                                            is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="main-content">
+                                <div class="content">
+                                    <div class="email-input-with-chips">
+                                        <mat-form-field appearance="outline" class="account-row w-full">
+                                            <mat-label>Emails</mat-label>
+                                            <input matInput [formControl]="inputControl"
+                                                placeholder="Enter emails separated by commas" (blur)="onInputBlur()">
+                                            <mat-error *ngIf="inputControl.hasError('invalidEmails')">Please enter valid
+                                                emails</mat-error>
+                                            <mat-error *ngIf="inputControl.hasError('required')">At least one email is
+                                                required</mat-error>
+                                        </mat-form-field>
+
+                                        <div *ngIf="emailChips.controls.length">
+                                            <mat-chip-list>
+                                                <mat-chip *ngFor="let email of emailChips.controls; let i = index"
+                                                    removable (removed)="removeEmail(i)">
+                                                    {{ email.value }}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+                                            </mat-chip-list>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="mt-6 mb-6">
+                        <div class="overflow-x-auto" *ngIf="dataSource?.data?.length>0">
+                            <table mat-table [dataSource]="dataSource" class="table" matSort>
+
+                                <ng-container matColumnDef="ReportId">
+                                    <th mat-header-cell *matHeaderCellDef> Report Id</th>
+                                    <td mat-cell *matCellDef="let element"> {{element?.Id}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="TemplateId">
+                                    <th mat-header-cell *matHeaderCellDef> Template Id </th>
+                                    <td mat-cell *matCellDef="let element"> {{element?.time?.toUpperCase()}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="FileName">
+                                    <th mat-header-cell *matHeaderCellDef> File Name </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{element?.JobFiles?.length}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="action">
+                                    <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                                    <td mat-cell *matCellDef="let element">
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="create-ftp ml-12 mb-8" *ngIf="!account.ftp">
+                        <div>
+                            FTP was not found in this account
+                        </div>
+                    </div>
+                    <div class="flex justify-end m-4">
+
+                    </div>
+
+                </div>
+                <div class="flex justify-between">
+                    <div class="ml-4">
+                        <button mat-raised-button color="primary" (click)="saveJobDetails()">Save Job Details</button>
+                    </div>
+                    <div class="mr-4">
+                        <button mat-raised-button color="primary" (click)="createJobReport()">Create Job Report</button>
+                    </div>
+                </div>-->
+                <!-- </div> -->
+            </div>
+        </mat-card>
+        <mat-card class="mt-8">
+            <div class="content m-4">
+                <h5 class="text-xl font-semibold mt-2">Add Report</h5>
+                <!-- <mat-form-field class="example-chip-list edit-alert-chip mt-2 w-full"> -->
+                <mat-form-field appearance="outline" class="account-row w-full">
+                    <mat-label>Select Report</mat-label>
+                    <mat-select formControlName="report" #emailInput (selectionChange)="addMoreEmails(emailInput)">
+                        <mat-option [value]="report.value" *ngFor="let report of reportList">
+                            {{report.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="jobForm.get('report')?.hasError('required')">Report
+                        is required</mat-error>
+                    </mat-form-field>
+                    <!-- <button mat-icon-button (click)="addMoreEmails(emailInput)" matTooltip="Add email"
+                        class="icon" matTooltipPosition="below">
+                        <mat-icon class=" bg-orange-500 rounded-full text-white text-lg">add</mat-icon>
+                    </button> -->
+
+                <!-- <input matInput placeholder="Enter emails"  >
+                </mat-form-field> -->
+
+
+                <h5 class="text-lg font-semibold mt-2">Report List</h5>
+
+                <div class="mt-6 mb-8 border">
+                    <div class="overflow-x-auto">
+                        <table mat-table [dataSource]="emailRows" class="table" matSort>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="Id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Email">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Report </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.value}}
+                                </td>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="Action">
+                                <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button (click)="removeMoreEmails(element.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <div *ngIf="emailRows.length == 0" class="m-4 flex justify-center">
+                            <span>No data to display</span>
+                        </div>
+                    </div>
+                    <!-- <mat-paginator [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator> -->
+                </div>
+
+                <!-- <div class="m-0 pt-0 flex justify-end mb-4">
+                    <button mat-raised-button color="primary" (click)="submit()">
+                        Save
+                    </button>
+                </div> -->
+            </div>
+        </mat-card>
+        <div class="text-end">
+            <button mat-raised-button class="mt-4" color="primary" (click)="saveJobDetails()">Save Job
+                Details</button>
+        </div>
+        <!-- <mat-card class="mt-8" *ngIf="this.batchesService.jobDetailsData?.type == 'edit'">
+            <div class="report-text m-4">
+                <span class="logo-text h1 pr-12">Report List</span>
+            </div>
+            <div class="mat-elevation-z8">
+                <div class="overflow-x-auto">
+                    <table mat-table [dataSource]="dataSource" class="table" matSort>
+
+                        <ng-container matColumnDef="FileName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> File Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element?.FileName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="ReportId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Report Id </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.ReportId}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TemplateId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Template Id </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.TemplateId}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                            <td mat-cell *matCellDef="let element">
+
+                                <mat-icon class="cursor-pointer" matTooltip="Edit Report">edit</mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                    aria-label="Select page of periodic elements" (page)="onPageChange($event)"
+                    [length]="totalItemCount">
+                </mat-paginator>
+            </div>
+            <div class="fixed bottom-0 right-0 m-4">
+                <div matTooltip="Create Report"
+                    class="flex items-center justify-center w-12 h-12 bg-orange-500 rounded-full shadow-lg cursor-pointer">
+                    <mat-icon class="text-white text-3xl">add</mat-icon>
+                </div>
+            </div>
+        </mat-card> -->
+
+    </div>
+</div>

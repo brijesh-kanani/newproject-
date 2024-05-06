@@ -1,0 +1,423 @@
+<form [formGroup]="frequencyForm" class="w-full">
+    <!-- minutesFields -->
+    <ng-container *ngIf="type === 'Minutely'">
+        <div class="grid grid-cols-12">
+            <div class="col-span-10">
+                <div class="ml-4 relative">
+                    <mat-label class="mr-4">Every</mat-label>
+                    <mat-form-field class="w-20">
+                        <div class="flex items-center">
+                            <!-- Ensure the parent div has full height -->
+                            <input
+                                matInput
+                                placeholder=""
+                                class="flex-grow text-center my-auto"
+                                type="number"
+                                min="1"
+                                formControlName="minutesTime"
+                            />
+                            <!-- Align text to center -->
+                        </div>
+                    </mat-form-field>
+                    <mat-label class="ml-4">minutes</mat-label>
+                    <mat-error
+                        *ngIf="frequencyForm.get('minutesTime').hasError('min')"
+                        class="err-position ml-12"
+                    >
+                        Invalid minutes
+                    </mat-error>
+                </div>
+                <div class="mt-2 ml-3">
+                    <mat-label class="mr-2">Between</mat-label>
+                    <mat-form-field class="w-20">
+                        <div class="flex items-center">
+                            <input
+                                matInput
+                                placeholder=""
+                                class="flex-grow"
+                                formControlName="minutesStart"
+                                readonly
+                                (click)="minutesStart()"
+                            />
+                        </div>
+                    </mat-form-field>
+                    <mat-label class="mr-2 ml-2">and </mat-label>
+                    <mat-form-field class="w-20">
+                        <div class="flex items-center">
+                            <input
+                                matInput
+                                placeholder=""
+                                class="flex-grow"
+                                formControlName="minutesEnd"
+                                readonly
+                                (click)="minutesEnd()"
+                            />
+                        </div>
+                    </mat-form-field>
+                    <mat-label class="ml-2">hour</mat-label>
+                </div>
+            </div>
+
+            <div class="col-span-10 mt-4 ml-20 w-full flex justify-start">
+                <app-time-show-hour
+                    *ngIf="showMinutesStart"
+                    [inputValue]="getMinutesStart()"
+                    [inputFrom]="'minutesStart'"
+                    (newInputValue)="reflectNewVal($event)"
+                    (closeSubTime)="closeSubRowYear()"
+                ></app-time-show-hour>
+                <app-time-show-hour
+                    *ngIf="showMinutesEnd"
+                    [inputValue]="getMinutesEnd()"
+                    [inputFrom]="'minutesEnd'"
+                    (newInputValue)="reflectNewVal($event)"
+                    (closeSubTime)="closeSubRowYear()"
+                ></app-time-show-hour>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- daily fields -->
+    <ng-container *ngIf="type === 'Daily'">
+        <div class="ml-3">
+            <div class="grid grid-cols-12 gap-4">
+                <div
+                    class="lg:col-span-3 xl:col-span-3 md:col-span-3 sm:col-span-12 xs:col-span-12 col-span-12"
+                    style="margin-right: 1.5% !important"
+                >
+                    <mat-checkbox
+                        class="w-full"
+                        [checked]="dailyOrNot"
+                        (change)="toggleDailyStatus($event)"
+                        ><span class="font-semibold"
+                            >Everyday</span
+                        ></mat-checkbox
+                    >
+                    <mat-checkbox
+                        class="w-full"
+                        *ngFor="let day of weekDays"
+                        [checked]="checkDaily(day.val)"
+                        (change)="selectDay(day.val)"
+                        >{{ day.title }}</mat-checkbox
+                    >
+                    <mat-error
+                        *ngIf="
+                            frequencyForm
+                                .get('dailyDay')
+                                .hasError('required') && frequencyButton
+                        "
+                    >
+                        Please select one day
+                    </mat-error>
+                </div>
+                <div
+                    *ngIf="windowWidth === 'large'"
+                    class="col-span-1 flex justify-end"
+                >
+                    <div class="vertical-line"></div>
+                </div>
+                <div
+                    class="lg:col-span-7 xl:col-span-7 md:col-span-7 sm:col-span-12 xs:col-span-12 col-span-12 ml-4"
+                >
+                    <mat-label class="ml-4 font-semibold text-lg"
+                        >Time:</mat-label
+                    >
+                    <div class="w-full">
+                        <span *ngFor="let row of dailyTimeRows; let i = index">
+                            <mat-form-field
+                                class="xl:w-2/5 lg:w-2/5 md:w-2/5 sm:w-2/5 xs:w-3/5 w-3/5 mr-3"
+                            >
+                                <div class="flex items-center">
+                                    <input
+                                        matInput
+                                        placeholder=""
+                                        [value]="row.value"
+                                        class="flex-grow"
+                                        readonly
+                                        (click)="mainTimeInput($event, i)"
+                                    />
+                                </div>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                (click)="addNewDailyRows()"
+                                class="relative icon-time"
+                                *ngIf="i === 0"
+                                matTooltip="Want to add another time?"
+                                matTooltipPosition="below"
+                            >
+                                <mat-icon
+                                    class="bg-orange-500 rounded-full text-white text-lg"
+                                    >add</mat-icon
+                                >
+                            </button>
+                            <button
+                                mat-icon-button
+                                (click)="removeNewDailyRows(row.id)"
+                                class="relative icon-time"
+                                *ngIf="i !== 0"
+                                matTooltip="Want to remove added time ?"
+                                matTooltipPosition="below"
+                            >
+                                <mat-icon
+                                    class="bg-red-500 rounded-full text-white text-lg"
+                                    >remove</mat-icon
+                                >
+                            </button>
+                            <div
+                                class="mb-4 mt-2 flex justify-start"
+                                *ngIf="indexOfMainTimeInput === i"
+                            >
+                                <app-time-show-hour-minutes
+                                    [row]="dailyTimeRows[i]"
+                                    [dailyTimeRows]="dailyTimeRows"
+                                    [rowNo]="i"
+                                    (closeSubTime)="closeSubRow($event)"
+                                ></app-time-show-hour-minutes>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- monthly fields -->
+    <ng-container *ngIf="type === 'Monthly'">
+        <div class="">
+            <!-- option 1 -->
+            <div class="ml-4">
+                <div class="grid grid-cols-12 gap-4">
+                    <div
+                        class="lg:col-span-4 xl:col-span-4 md:col-span-4 sm:col-span-8 xs:col-span-8 col-span-8"
+                    >
+                        <mat-label class="ml-4 font-semibold text-lg"
+                            >Date:</mat-label
+                        >
+                        <div class="w-full">
+                            <mat-form-field
+                                class="xl:w-full lg:w-full md:w-full sm:w-3/5 xs:w-full w-full mr-3"
+                            >
+                                <mat-select
+                                    multiple
+                                    formControlName="monthlyDate"
+                                >
+                                    <mat-option
+                                        *ngFor="let date of datesArray"
+                                        [value]="date"
+                                        >{{ date }}</mat-option
+                                    >
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="
+                                        frequencyForm
+                                            .get('monthlyDate')
+                                            .hasError('required') &&
+                                        frequencyButton
+                                    "
+                                >
+                                    Please select one date
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div
+                        *ngIf="windowWidth === 'large'"
+                        class="col-span-1 flex justify-end"
+                    >
+                        <div class="vertical-line"></div>
+                    </div>
+                    <div
+                        class="lg:col-span-7 xl:col-span-7 md:col-span-7 sm:col-span-12 xs:col-span-12 col-span-12"
+                    >
+                        <div class="mb-4 lg:ml-4 xl:ml-4 md:ml-4">
+                            <mat-label class="font-semibold text-lg"
+                                >Time:</mat-label
+                            >
+
+                            <div class="w-full">
+                                <span
+                                    *ngFor="
+                                        let row of monthlyTimeRows;
+                                        let i = index
+                                    "
+                                >
+                                    <mat-form-field
+                                        class="xl:w-2/5 lg:w-2/5 md:w-2/5 sm:w-2/5 xs:w-3/5 w-3/5 mr-3"
+                                    >
+                                        <div class="flex items-center">
+                                            <input
+                                                class="w-full"
+                                                matInput
+                                                placeholder=""
+                                                [value]="row.value"
+                                                class="flex-grow"
+                                                readonly
+                                                (click)="
+                                                    mainTimeInput($event, i)
+                                                "
+                                            />
+                                        </div>
+                                    </mat-form-field>
+                                    <button
+                                        mat-icon-button
+                                        (click)="addNewDailyRows('monthly')"
+                                        class="relative icon-time"
+                                        *ngIf="i === 0"
+                                        matTooltip="Want to add another time?"
+                                        matTooltipPosition="below"
+                                    >
+                                        <mat-icon
+                                            class="bg-orange-500 rounded-full text-white text-lg"
+                                            >add</mat-icon
+                                        >
+                                    </button>
+                                    <button
+                                        mat-icon-button
+                                        (click)="
+                                            removeNewDailyRows(
+                                                row.id,
+                                                'monthly'
+                                            )
+                                        "
+                                        *ngIf="i !== 0"
+                                        class="icon-time"
+                                        matTooltip="Want to remove added time ?"
+                                        matTooltipPosition="below"
+                                    >
+                                        <mat-icon
+                                            class="bg-red-500 rounded-full text-white text-lg"
+                                            >remove</mat-icon
+                                        >
+                                    </button>
+
+                                    <div
+                                        class="w-full"
+                                        *ngIf="indexOfMainTimeInput === i"
+                                    >
+                                        <div
+                                            class="mb-4 flex justify-start"
+                                            *ngIf="indexOfMainTimeInput === i"
+                                        >
+                                            <app-time-show-hour-minutes
+                                                [row]="monthlyTimeRows[i]"
+                                                [dailyTimeRows]="
+                                                    monthlyTimeRows
+                                                "
+                                                [rowNo]="i"
+                                                (closeSubTime)="
+                                                    closeSubRow($event)
+                                                "
+                                            ></app-time-show-hour-minutes>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- yearly fields -->
+    <ng-container *ngIf="type === 'Yearly'">
+        <div class="ml-4">
+            <div class="grid grid-cols-12 gap-4">
+                <div
+                    class="lg:col-span-4 xl:col-span-4 md:col-span-4 sm:col-span-8 xs:col-span-8 col-span-8"
+                >
+                    <mat-label class="ml-4 font-semibold text-lg"
+                        >Months:</mat-label
+                    >
+                    <div class="w-full">
+                        <mat-form-field
+                            class="xl:w-full lg:w-full md:w-full sm:w-3/5 xs:w-full w-full mr-3"
+                        >
+                            <mat-select multiple formControlName="yearlyMonth">
+                                <mat-form-field class="w-full p-3">
+                                    <input
+                                        matInput
+                                        formControlName="filterYearlyMonth"
+                                    />
+                                </mat-form-field>
+                                <mat-option
+                                    *ngFor="let day of filterMonthsOptions"
+                                    [value]="day.val"
+                                    >{{ day.title }}</mat-option
+                                >
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div
+                    *ngIf="windowWidth === 'large'"
+                    class="col-span-1 flex justify-end"
+                >
+                    <div class="vertical-line"></div>
+                </div>
+                <div
+                    class="lg:col-span-5 xl:col-span-5 md:col-span-5 sm:col-span-8 xs:col-span-8 col-span-8"
+                >
+                    <div class="w-full">
+                        <mat-label class="font-semibold text-lg ml-4"
+                            >Date:</mat-label
+                        >
+                        <br />
+                        <mat-form-field
+                            class="xl:w-3/5 lg:w-3/5 md:w-3/5 sm:w-3/5 xs:w-4/5 w-4/5 mr-3"
+                        >
+                            <mat-select formControlName="yearlyDate">
+                                <mat-option
+                                    *ngFor="let date of datesArray"
+                                    [value]="date"
+                                    >{{ date }}</mat-option
+                                >
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-label class="font-semibold text-lg ml-4"
+                        >Time:</mat-label
+                    >
+                    <br />
+                    <mat-form-field
+                        class="xl:w-3/5 lg:w-3/5 md:w-3/5 sm:w-3/5 xs:w-4/5 w-4/5 mr-3"
+                    >
+                        <div class="flex items-center">
+                            <input
+                                matInput
+                                [value]="valueTimeYear"
+                                formControlName="yearlyTime"
+                                class="flex-grow"
+                                (click)="mainTimeYear()"
+                                readonly
+                            />
+                        </div>
+                    </mat-form-field>
+                    <div
+                        *ngIf="indexOfMainTimeInput === i"
+                        class="w-3/4 mb-4 flex justify-start"
+                    >
+                        <app-time-show-hour
+                            *ngIf="showTimeYear"
+                            [inputValue]="valueTimeYear"
+                            (newInputValue)="reflectNewVal($event)"
+                            (closeSubTime)="closeSubRowYear()"
+                        ></app-time-show-hour>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</form>
+<!-- <div class="m-4 pt-0 flex justify-center mb-4">
+    <button mat-raised-button color="primary" (click)="generateFrequency()">
+        Generate Frequency
+    </button>
+</div> -->
+<div style="text-align: center" class="m-4">
+    <span class="ml-4 font-bold text-lg">{{ displayMsg }} </span>
+    <p *ngIf="finalExpression">
+        Cron Expression(Testing Only): {{ finalExpression }}
+    </p>
+</div>

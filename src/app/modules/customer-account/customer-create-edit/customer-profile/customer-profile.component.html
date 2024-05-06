@@ -1,0 +1,57 @@
+<div class="content account-part">
+    <fieldset>
+        <legend>
+            <h3 style="font-weight: 600; padding:0px 4px">Profile Details</h3>
+        </legend>
+        <div class="tab-content">
+            <div class="attr-row account-row">
+                <div class="bold-style"><span> Account Name:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.AccountName || '-'}} </span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span>Account Code:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.AccountCode || '-'}}</span>
+                </div>
+            </div>
+
+            <div class="attr-row account-row">
+                <div class="bold-style"><span>Account Number:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.AccountNumber || '-'}}</span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span>Physical Address1:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.PhysicalAddress1 || '-'}}</span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span> Physical PostalCode:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.PhysicalPostalCode || '-'}}</span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span> Postal Address1:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.PostalAddress1 || '-'}}</span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span> Postal State:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.PostalState || '-'}}</span>
+                </div>
+            </div>
+            <div class="attr-row account-row">
+                <div class="bold-style"><span> Postal Suburb:</span></div>
+                <div style="word-break: break-word;">
+                    <span>{{userProfileData?.PostalSuburb || '-'}}</span>
+                </div>
+            </div>
+        </div>
+    </fieldset>

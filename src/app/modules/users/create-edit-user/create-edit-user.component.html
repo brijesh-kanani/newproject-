@@ -1,0 +1,406 @@
+<div id="user-component" class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"> -->
+    <!-- <div
+        class="flex ml-6 mr-6 mt-4 flex-col sm:flex-row flex-0  sm:items-center sm:justify-between border-b   dark:bg-transparent">
+        <div class="flex-1 min-w-0 shadow bg-card rounded-2xl p-2">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="ml-2 text-xl font-extrabold tracking-tight truncate">
+                        {{this.action == 'edit' ? "Edit User" : 'Add User'}}
+                    </h2>
+                </div>
+                <div>
+                    <button mat-button class="bg-accent text-white hover:bg-accent-dark px-4 py-2 rounded-lg"
+                        [routerLink]="['/users']">Back</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="flex-auto ml-6 mr-6 mt-4">
+        <!-- <mat-card class="profile-card pb-2">
+        <mat-card-content> -->
+        <div>
+            <div class="mat-elevation-z8 p-6 bg-white">
+                <!-- <mat-card class="user-filter-card"> -->
+                <form [formGroup]="userForm" class="space-y-8">
+                    <fieldset>
+                        <legend>
+                            <h3 style="font-weight: bold; padding:0px 4px">User</h3>
+                        </legend>
+
+                        <!-- new and edit form -->
+                        <div class="p-4" *ngIf="!btnEditShow || editView">
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput formControlName="firstName" placeholder="First Name" required
+                                            class="input">
+                                        <mat-error *ngIf="userForm.get('firstName').hasError('required')">First Name
+                                            is
+                                            required.</mat-error>
+                                        <mat-error *ngIf="userForm.get('firstName')?.hasError('maxlength')">
+                                            First Name maximum length of 50 characters
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput formControlName="lastName" placeholder="Last Name"
+                                            class="input">
+                                        <mat-error *ngIf="userForm.get('lastName').hasError('required')">Last Name
+                                            is
+                                            required.</mat-error>
+                                        <mat-error *ngIf="userForm.get('lastName')?.hasError('maxlength')">
+                                            Last Name maximum length of 50 characters
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Email Address</mat-label>
+                                        <input matInput formControlName="email" placeholder="Email" required
+                                            class="input">
+                                        <mat-error *ngIf="userForm.get('email').hasError('required')">Email is
+                                            required.</mat-error>
+                                        <mat-error *ngIf="userForm.get('email').hasError('email')">Invalid email
+                                            format.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Phone No</mat-label>
+                                        <input matInput formControlName="phoneNumber" placeholder="Phone" class="input">
+                                        <mat-error *ngIf="userForm.get('phoneNumber').hasError('pattern')">Phone
+                                            Number
+                                            must be
+                                            valid.</mat-error>
+                                        <mat-error
+                                            *ngIf="userForm.get('phoneNumber').hasError('invalidPhone') && userForm.get('phoneNumber').dirty">
+                                            Invalid phone number.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- view form -->
+                        <div class="p-4" *ngIf="btnEditShow && !editView">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">First Name:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('firstName').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">last Name:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('lastName').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Email Address:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('email').value ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Phone No:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('phoneNumber').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>
+                            <h3 style="font-weight: bold; padding:0px 4px">Address</h3>
+                        </legend>
+                        <div class="p-4" *ngIf="!btnEditShow || editView">
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Address1</mat-label>
+                                        <input matInput formControlName="address1" placeholder="Address1" required
+                                            class="input">
+                                        <mat-error *ngIf="userForm.get('address1').hasError('required')">Address1 is
+                                            required.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Address2</mat-label>
+                                        <input matInput formControlName="address2" placeholder="Address2" class="input">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Country</mat-label>
+                                        <mat-select formControlName="country" required
+                                            (selectionChange)="loadStateList($event.value)"
+                                            (openedChange)="searchCtrlCountry.setValue('')">
+                                            <mat-form-field appearance="outline" class="w-full p-2">
+                                                <input matInput #input placeholder="Search Country"
+                                                    [formControl]="searchCtrlCountry"
+                                                    (keydown)="onKeydown($event, input)" />
+                                                <mat-icon matSuffix class="secondary-text" style="cursor: pointer"
+                                                    *ngIf="searchCtrlCountry?.value"
+                                                    (click)="searchCtrlCountry.setValue('')">close
+                                                </mat-icon>
+                                            </mat-form-field>
+                                            <mat-option *ngFor="let country of selectedCountries | async "
+                                                [value]="country.countryID">{{country.countryName}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="userForm.get('country')?.hasError('required')">
+                                            Country is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>State</mat-label>
+                                        <mat-select formControlName="state_Territory" required
+                                            (openedChange)="searchCtrlState.setValue('')">
+                                            <mat-form-field appearance="outline" class="w-full p-2">
+                                                <input matInput #input placeholder="Search State"
+                                                    [formControl]="searchCtrlState"
+                                                    (keydown)="onKeydown($event, input)" />
+                                                <mat-icon matSuffix class="secondary-text" style="cursor: pointer"
+                                                    *ngIf="searchCtrlState?.value"
+                                                    (click)="searchCtrlState.setValue('')">close
+                                                </mat-icon>
+                                            </mat-form-field>
+                                            <mat-option *ngFor="let state of selectedStates | async "
+                                                [value]="state.stateTerritoriesID">{{state.state_Territory}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="userForm.get('state_Territory')?.hasError('required')">
+                                            State is required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <!-- <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Suburb</mat-label>
+                                        <input matInput formControlName="suburb" placeholder="Suburb" class="input">
+                                    </mat-form-field>
+                                </div> -->
+
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Postal Code</mat-label>
+                                        <input matInput formControlName="postCode" placeholder="Postal Code"
+                                            class="input">
+                                        <mat-error *ngIf="userForm.get('postCode')?.hasError('maxlength')">
+                                            Postal Code maximum length of 15 characters
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4" *ngIf="btnEditShow && !editView">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Address1:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('address1').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Address2:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('address2').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Country:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{fetchCountryName(userForm.get('country').value)
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">State:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{fetchStateName(userForm.get('state_Territory').value)
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <!-- <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none w-50 ">
+                                            <span class="font-bold text-lg">Suburb:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('suburb').value ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Postal Code:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('postCode').value
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>
+                            <h3 style="font-weight: bold; padding:0px 4px">Other</h3>
+                        </legend>
+                        <div class="p-4" *ngIf="!btnEditShow || editView">
+                            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 sm:gap-0 md:gap-8">
+                                <div class="pb-2">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Select Role</mat-label>
+                                        <mat-select formControlName="roleId">
+                                            <mat-option *ngFor="let role of roles" [value]="role.roleId">
+                                                {{role.roleName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="userForm.get('roleId').hasError('required')">Role is
+                                            required.</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <div class="flex items-center space-x-4 pb-2">
+                                    <mat-label>Gender</mat-label>
+                                    <mat-radio-group aria-label="Select an option" formControlName="sex">
+                                        <mat-radio-button value="male">Male</mat-radio-button>
+                                        <mat-radio-button value="female">Female</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="p-4" *ngIf="btnEditShow && !editView">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 sm:gap-0 md:gap-0">
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">User Role:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{fetchRole(userForm.get('roleId').value)
+                                                ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-2">
+                                    <div class="flex mt-4">
+                                        <div class="flex-none newsm:w-50 w-30">
+                                            <span class="font-bold text-lg">Gender:</span>
+                                        </div>
+                                        <div class="flex-initial w-50">
+                                            <span class="text-lg break-all"
+                                                style="overflow-wrap: break-word;">{{userForm.get('sex').value &&
+                                                userForm.get('sex').value=='male' ? 'Male' : 'Female' ||
+                                                ''}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="flex justify-end mt-6 space-x-2">
+                        <button mat-button class="btn-secondary" [routerLink]="['/users']">Cancel</button>
+                        <button *ngIf="btnEditShow" mat-button (click)="btnEditViewChange()"
+                            class="bg-accent text-white hover:bg-accent-dark px-4 py-2">{{ editView ? 'View' :
+                            'Edit'}}</button>
+                        <button mat-button (click)="onSave()" [disabled]="userForm.invalid"
+                            [ngClass]="{'bg-gray-200': userForm.invalid}" class="btn-primary">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

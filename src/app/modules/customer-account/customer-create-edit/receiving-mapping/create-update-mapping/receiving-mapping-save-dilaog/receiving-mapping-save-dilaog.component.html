@@ -1,0 +1,51 @@
+<div class="main-dialog p-0">
+    <div class="bg-accent p-3">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-semibold text-white">{{updateData ? 'Update' : 'Create'}} Mapping</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div mat-dialog-content class="flex flex-col space-y-6">
+        <form [formGroup]="templeteForm" class="space-y-6">
+            <mat-form-field class="w-full">
+                <mat-label>Mapping Name</mat-label>
+                <mat-icon class="mr-4">account_circle</mat-icon>
+                <input name="templeteName" formControlName="templeteName" matInput required class="input">
+                <mat-error *ngIf="templeteForm.get('templeteName')?.hasError('required')">
+                    Mapping name is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Select FTP Account</mat-label>
+                <mat-select formControlName="ftpAccount" placeholder="Select FTP Account">
+                    <mat-option *ngFor="let account of ftpAccountList" [value]="account">
+                        {{account.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Select Mapping Type</mat-label>
+                <mat-select formControlName="mappingType" placeholder="Select Mapping Type">
+                    <mat-option *ngFor="let type of mappingTypeList" [value]="type.key">
+                        {{type.key}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="m-0 pt-0 mt-6 flex justify-center items-center mb-4">
+        <button [ngClass]="templeteForm.invalid ? 'bg-gray-200': 'bg-accent text-white'"
+            class="bg-accent hover:bg-accent-dark px-4 py-2 rounded-lg" [disabled]="templeteForm.invalid"
+            (click)="saveTemplateWithMapping()">
+            Save
+        </button>
+        <button class="px-4 py-2 border rounded-lg  ml-2" (click)="matDialogRef.close(false)">
+            Cancel
+        </button>
+    </div>
+</div>

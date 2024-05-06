@@ -1,0 +1,80 @@
+<div id="import-component" class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto m-4">
+        <div class="mat-elevation-z8">
+            <div class="overflow-x-auto">
+                <!-- create mapping -->
+                <form
+                    class="p-4 bg-card shadow rounded overflow-hidden"
+                    [formGroup]="horizontalStepperForm"
+                >
+                    <mat-horizontal-stepper
+                        [linear]="true"
+                        #horizontalStepper
+                        *ngIf="
+                            deviceService.isDesktop() ||
+                            deviceService.isTablet()
+                        "
+                        (selectionChange)="onStepChange($event)"
+                    >
+                        <mat-step
+                            [formGroupName]="'step1'"
+                            [stepControl]="horizontalStepperForm.get('step1')"
+                            #horizontalStepperStep1
+                        >
+                            <ng-template matStepLabel>View Mapping</ng-template>
+                            <app-input-file
+                                [horizontalStepperForm]="horizontalStepperForm"
+                            ></app-input-file>
+                        </mat-step>
+
+                        <mat-step
+                            [formGroupName]="'step2'"
+                            #horizontalStepperStep2
+                        >
+                            <ng-template matStepLabel>{{
+                                updateMapping
+                                    ? "Update Mapping"
+                                    : "Create Mapping"
+                            }}</ng-template>
+                            <app-input-mapping
+                                [horizontalStepperForm]="horizontalStepperForm"
+                            ></app-input-mapping>
+                        </mat-step>
+                    </mat-horizontal-stepper>
+                    <mat-vertical-stepper
+                        *ngIf="deviceService.isMobile()"
+                        a
+                        [linear]="true"
+                        #horizontalStepper
+                        (selectionChange)="onStepChange($event)"
+                    >
+                        <mat-step
+                            [formGroupName]="'step1'"
+                            [stepControl]="horizontalStepperForm.get('step1')"
+                            #horizontalStepperStep1
+                        >
+                            <ng-template matStepLabel>View Mapping</ng-template>
+                            <app-input-file
+                                [horizontalStepperForm]="horizontalStepperForm"
+                            ></app-input-file>
+                        </mat-step>
+
+                        <mat-step
+                            [formGroupName]="'step2'"
+                            #horizontalStepperStep2
+                        >
+                            <ng-template matStepLabel>{{
+                                updateMapping.length > 0
+                                    ? "Update Mapping"
+                                    : "Create Mapping"
+                            }}</ng-template>
+                            <app-input-mapping
+                                [horizontalStepperForm]="horizontalStepperForm"
+                            ></app-input-mapping>
+                        </mat-step>
+                    </mat-vertical-stepper>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

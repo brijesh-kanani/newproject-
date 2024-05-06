@@ -1,0 +1,291 @@
+<div class="bg-accent p-3">
+    <div class="flex justify-between items-center">
+        <div>
+            <span class="text-xl font-semibold text-white">{{data.action == 'create' ? 'Create' : 'Update'}} Job
+                Details</span>
+        </div>
+        <div>
+            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                <mat-icon class="text-white">close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+
+    <fieldset>
+        <legend>
+            <h3 style="font-weight: 600; padding:0px 4px">Job Details</h3>
+        </legend>
+        <div class="tab-content">
+            <div class="main-content">
+                <form name="Form" [formGroup]="Form">
+                    <div>
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Select Job Type</mat-label>
+                            <mat-select formControlName="accountType"
+                                (selectionChange)="setFTPPortbyType($event.value)">
+                                <mat-option [value]="account.value" *ngFor="let account of JobTypeList">
+                                    {{account.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Form.get('accountType')?.hasError('required')">Job Type
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <form name="ftpForm" [formGroup]="ftpForm" *ngIf="Form.get('accountType').value=='ftp'">
+            <div class="tab-content">
+
+                <div class="main-content">
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Name</mat-label>
+                            <input name="name" formControlName="name" matInput>
+                            <mat-error *ngIf="ftpForm.get('name')?.hasError('required')">Name
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Host</mat-label>
+                            <input name="name" formControlName="host" matInput>
+                            <mat-error *ngIf="ftpForm.get('host')?.hasError('required')">Host
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>FTP Type</mat-label>
+                            <mat-select formControlName="accountType"
+                                (selectionChange)="setFTPPortbyType($event.value)">
+                                <mat-option [value]="account.value" *ngFor="let account of accountTypeList">
+                                    {{account.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="ftpForm.get('accountType')?.hasError('required')">FTP Type
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- <div class="content">
+                        <mat-form-field appearance="outline" class="account-row  w-full">
+                            <mat-label>Filter</mat-label>
+                            <input name="name" formControlName="fileName" matInput>
+                        </mat-form-field>
+                    </div> -->
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row  w-full">
+                            <mat-label>Folder Name</mat-label>
+                            <input name="name" formControlName="folderName" matInput>
+                            <mat-error *ngIf="ftpForm.get('folderName')?.hasError('required')">Folder Name
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-checkbox formControlName="isActive">Active</mat-checkbox>
+                    </div>
+
+                </div>
+
+                <div class="main-content">
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>FTP User</mat-label>
+                            <input name="name" formControlName="username" matInput>
+                            <mat-error *ngIf="ftpForm.get('username')?.hasError('required')">FTP User
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Password</mat-label>
+                            <input name="name" type="text" formControlName="password" matInput>
+                            <mat-error *ngIf="ftpForm.get('password')?.hasError('required')">Password
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row  w-full">
+                            <mat-label>Port</mat-label>
+                            <input name="name" formControlName="port" matInput>
+                            <mat-error *ngIf="ftpForm.get('port')?.hasError('required')">Port
+                                is required</mat-error>
+                            <mat-error *ngIf="ftpForm.get('port')?.hasError('pattern')">Only Allow
+                                Number</mat-error>
+                            <mat-error *ngIf="ftpForm.get('port')?.hasError('maxlength')">Max 8
+                                Character
+                                Allow</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Archive Folder</mat-label>
+                            <input name="name" type="text" formControlName="archiveFolder" matInput>
+                            <mat-error *ngIf="ftpForm.get('archiveFolder')?.hasError('required')">Archive Folder
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Warehouse</mat-label>
+                            <mat-select formControlName="warehouse">
+                                <mat-option *ngFor="let warehouse of warehouseList" [value]="warehouse.Id">
+                                    {{warehouse.Full_Name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="ftpForm.get('warehouse')?.hasError('required')">Warehouse
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </form>
+        <form name="emailForm" [formGroup]="emailForm" *ngIf="Form.get('accountType').value=='email'">
+            <div class="tab-content" >
+
+                <div class="main-content">
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Title</mat-label>
+                            <input name="title" formControlName="title" matInput>
+                            <mat-error *ngIf="ftpForm.get('title')?.hasError('required')">Title
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Subject</mat-label>
+                            <input name="subject" formControlName="subject" matInput>
+                            <mat-error *ngIf="ftpForm.get('subject')?.hasError('required')">Subject
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+
+
+                </div>
+
+                <div class="main-content">
+                    <div class="content">
+                        <mat-form-field appearance="outline" class="account-row w-full">
+                            <mat-label>Email</mat-label>
+                            <input name="email" formControlName="email" matInput>
+                            <mat-error *ngIf="ftpForm.get('email')?.hasError('required')">Email
+                                is required</mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </form>
+        <div class="mt-6 mb-6">
+            <div class="overflow-x-auto" *ngIf="dataSource?.data?.length>0">
+                <table mat-table [dataSource]="dataSource" class="table" matSort>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="ReportId">
+                        <th mat-header-cell *matHeaderCellDef> Report Id</th>
+                        <td mat-cell *matCellDef="let element"> {{element?.Id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TemplateId">
+                        <th mat-header-cell *matHeaderCellDef> Template Id </th>
+                        <td mat-cell *matCellDef="let element"> {{element?.time?.toUpperCase()}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FileName">
+                        <th mat-header-cell *matHeaderCellDef> File Name </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element?.JobFiles?.length}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <!-- <ng-container matColumnDef="phoneNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mapping </th>
+                        <td mat-cell *matCellDef="let element"> {{element.mapping}} </td>
+                    </ng-container> -->
+
+                    <!-- Symbol Column -->
+                    <!-- <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon class="active" *ngIf='element.active'>check_circle</mat-icon>
+                        <mat-icon class="deactive" *ngIf='!element.active'>cancel</mat-icon>
+                    </td>
+                </ng-container> -->
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                        <td mat-cell *matCellDef="let element">
+
+                            <div class="flex">
+                                <!-- <mat-icon class="cursor-pointer" (click)="editBatch(element)">edit</mat-icon>
+                                <mat-icon class="cursor-pointer ml-2" (click)="viewAccount(element)">visibility</mat-icon> -->
+                            </div>
+
+                            <!-- <button mat-icon-button  aria-label="Actions">
+                                <mat-icon (click)="viewAccount(element)">visibility</mat-icon>
+                            </button> -->
+                            <!-- <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="viewAccount(element)">
+                                    <mat-icon>visibility</mat-icon> View
+                                </button>
+
+                                <button mat-menu-item (click)="viewFileLog(element)">
+                                    <mat-icon>file_copy</mat-icon> File Log
+                                </button>
+                            </mat-menu> -->
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+        <!-- <div class="create-ftp ml-12 mb-8" *ngIf="!account.ftp">
+        <div>
+            FTP was not found in this account
+        </div>
+    </div> -->
+        <!-- <div class="flex justify-end m-4">
+
+            </div> -->
+    </fieldset>
+
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center space-x-2 m-3">
+    <button mat-button (click)="dialogRef.close()"
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+    <button [disabled]="ftpForm.invalid" mat-button (click)="saveFtp()" *ngIf="Form.get('accountType').value=='ftp'"
+        [ngClass]="ftpForm.invalid ? 'bg-gray-300 rounded-lg' : 'bg-orange-500 rounded-lg'">
+        Save
+    </button>
+    <button [disabled]="emailForm.invalid" *ngIf="Form.get('accountType').value=='email'" mat-button
+        (click)="saveFtp()" [ngClass]="emailForm.invalid ? 'bg-gray-300 rounded-lg' : 'bg-orange-500 rounded-lg'">
+        Save
+    </button>
+</mat-dialog-actions>

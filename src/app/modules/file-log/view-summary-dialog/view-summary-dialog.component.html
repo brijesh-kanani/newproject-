@@ -1,0 +1,355 @@
+<div id="main-view-file-log" class="w-full m-4">
+    <div class="file-log-view-header">
+        <div>
+            <button matTooltip="back" mat-icon-button (click)="goBack()">
+                <mat-icon class="text-3xl mt-1">arrow_back</mat-icon>
+            </button>
+        </div>
+        <div class="flex">
+            <div class="mr-2">
+                <button mat-raised-button (click)="getFileLogData()">Refresh
+                </button>
+            </div>
+            <div>
+                <button mat-raised-button (click)="downloadFileLog()">Download File Log
+                </button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <mat-expansion-panel [expanded]="true" [disabled]="true">
+            <mat-expansion-panel-header class="{{checkBgcolor()}}">
+                <mat-panel-title class="m-0">
+                    <div class="text-white">
+                        {{filelogService?.viewLogData?.file_type}} Import Log
+                    </div>
+                    <div class="text-white mr-2"
+                        *ngIf="!checkIsProgress(filelogService.viewLogData) && filelogService.viewLogData?.status == 'error'">
+                        <button mat-button style="background: #1e293b;"
+                            (click)="reUploadFile(filelogService.viewLogData)">Reupload
+                            File</button>
+                    </div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="mt-2" *ngIf="checkIsProgress(filelogService.viewLogData)">
+                <!-- <mat-icon class="spinning-autorenew"
+                    matTooltip="In Progress">autorenew</mat-icon>
+                 -->
+                <div class="loader" matTooltip="In Progress">
+                    <div>
+                        <ul>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg fill="currentColor" viewBox="0 0 90 120">
+                                    <path
+                                        d="M90,0 L90,120 L11,120 C4.92486775,120 0,115.075132 0,109 L0,11 C0,4.92486775 4.92486775,0 11,0 L90,0 Z M71.5,81 L18.5,81 C17.1192881,81 16,82.1192881 16,83.5 C16,84.8254834 17.0315359,85.9100387 18.3356243,85.9946823 L18.5,86 L71.5,86 C72.8807119,86 74,84.8807119 74,83.5 C74,82.1745166 72.9684641,81.0899613 71.6643757,81.0053177 L71.5,81 Z M71.5,57 L18.5,57 C17.1192881,57 16,58.1192881 16,59.5 C16,60.8254834 17.0315359,61.9100387 18.3356243,61.9946823 L18.5,62 L71.5,62 C72.8807119,62 74,60.8807119 74,59.5 C74,58.1192881 72.8807119,57 71.5,57 Z M71.5,33 L18.5,33 C17.1192881,33 16,34.1192881 16,35.5 C16,36.8254834 17.0315359,37.9100387 18.3356243,37.9946823 L18.5,38 L71.5,38 C72.8807119,38 74,36.8807119 74,35.5 C74,34.1192881 72.8807119,33 71.5,33 Z">
+                                    </path>
+                                </svg>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- <span>In Progress</span> -->
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <span class="text-black">Dear customer,</span>
+                <div *ngIf="checkIsProgress(filelogService.viewLogData)">
+                    <div class="text-black">your file <span
+                            class="font-bold text-black">{{this.filelogService?.viewLogData?.file_name || '-'}}</span>
+                        <span class="text-blue-400 font-bold"> In progress</span> please see event log below for more
+                        details.
+                    </div>
+                </div>
+                <div *ngIf="!checkIsProgress(filelogService.viewLogData)">
+                    <div *ngIf="filelogService.viewLogData?.status == 'error'" class="text-black">your file <span
+                            class="font-bold text-black">{{this.filelogService?.viewLogData?.file_name || '-'}}</span>
+                        <span class="text-red-500 font-bold"> TERMINATED
+                            WITH
+                            ERROR,</span> please see event log below for more details.
+                    </div>
+                    <div *ngIf="filelogService.viewLogData?.status == 'warning'" class="text-black">your file <span
+                            class="font-bold text-black">{{this.filelogService?.viewLogData?.file_name || '-'}}</span>
+                        <span class="text-orange-500 font-bold"> TERMINATED
+                            WITH
+                            WARNINGS,</span> please see event log below for more details.
+                    </div>
+                    <div *ngIf="filelogService.viewLogData?.status == 'success'" class="text-black">your file <span
+                            class="font-bold text-black">{{this.filelogService?.viewLogData?.file_name || '-'}}</span>
+                        <span class="text-green-500 font-bold"> IMPORTED SUCCESSFULLY,</span> please see event log below
+                        for
+                        more
+                        details.
+                    </div>
+                </div>
+                <div class="text-black">A copy of your original file can be download <a (click)="downloadFile()"
+                        class="file-download-link">here</a>.</div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+
+    <div class="mt-4">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header style="background-color: currentColor;">
+                <mat-panel-title>
+                    File Log Summary
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="file-logs-view-component" class="flex flex-col flex-auto min-w-0">
+                <div>
+                    <div id="file-logs--viewcomponent" class="flex flex-col flex-auto min-w-0">
+                        <div class="flex-auto">
+                            <div class="mt-4">
+                                <div class="overflow-x-auto">
+                                    <table mat-table [dataSource]="fileLogSummaryDataSource" class="table" matSort
+                                        style="width: 800px;">
+
+                                        <ng-container matColumnDef="startTime">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Time </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.startTime | date:
+                                                'dd-MM-yyyy HH:mm:ss' || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="finishTime">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                Finish Time
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.endTime ? (element.endTime | date: 'dd-MM-yyyy HH:mm:ss') :
+                                                '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="totalTime">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Time </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.totalTime || '-'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="sucessLines">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sucess Lines </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.success || 0}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="warningLines">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Error Lines </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.error || 0}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="skipLines">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Skip Lines </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.skipped || 0}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="totalLines">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Lines </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.total_lines || 0}}
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="fileLogSummarydisplayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: fileLogSummarydisplayedColumns;">
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+    <div class="mt-4">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header style="background-color: currentColor;">
+                <mat-panel-title>
+                    File Log
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="file-logs-view-component" class="flex flex-col flex-auto min-w-0">
+                <div>
+                    <div id="file-logs--viewcomponent" class="flex flex-col flex-auto min-w-0">
+                        <div class="flex-auto">
+                            <!-- <div>
+                            <app-file-log-filter (filtersApplied)="applyFileLogFilters($event)"></app-file-log-filter>
+                        </div> -->
+                            <!-- <div class="flex justify-start space-x-2 mr-6 mt-4">
+                            <button mat-raised-button color="primary" (click)="getFileLogList()">Refresh</button>
+                        </div> -->
+                            <div class="mt-4">
+                                <div class="overflow-x-auto">
+                                    <table mat-table [dataSource]="fileLogDataSource" class="table"
+                                        style="width: 800px;">
+
+                                        <!-- <ng-container matColumnDef="statusId">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> StatusId </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.statusId}} </td>
+                                    </ng-container> -->
+
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.status}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="createAt">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                CreateAt
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="description">
+                                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <div [matTooltip]="element.description">
+                                                    {{element.description ? element.description.length > 200 ?
+                                                    element.description.slice(0,200) + '...' : element.description :
+                                                    element.description || '-'}}
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                            [ngStyle]="{
+                                         'background-color': getRowBackgroundColorFileLog(row),'--dynamicColor':getRowBackgroundColorFileLog(row)}">
+                                        </tr>
+                                    </table>
+                                </div>
+                                <mat-paginator #fileLogMatPaginator class="flex justify-end"
+                                    [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                                    aria-label="Select page of periodic elements">
+                                </mat-paginator>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+
+    <div class="mt-6">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header style="background-color: currentColor;">
+                <mat-panel-title>
+                    File Line Log
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="file-logs-view-component" class="flex flex-col flex-auto min-w-0">
+                <div>
+                    <div id="file-logs--viewcomponent" class="flex flex-col flex-auto min-w-0">
+                        <div class="flex-auto">
+                            <!-- <div>
+                                <app-file-log-filter (filtersApplied)="applyFileLogFilters($event)"></app-file-log-filter>
+                            </div> -->
+                            <!-- <div class="flex justify-start space-x-2 mr-6 mt-4">
+                                <button mat-raised-button color="primary" (click)="getFileLogList()">Refresh</button>
+                            </div> -->
+                            <div class="mt-4">
+                                <div class="overflow-x-auto">
+                                    <table mat-table [dataSource]="fileLineLogDataSource" class="table" matSort
+                                        style="width: 800px;">
+
+                                        <!-- <ng-container matColumnDef="statusId">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> StatusId </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.statusId}} </td>
+                                        </ng-container> -->
+
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.status}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="description">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <div [matTooltip]="element.description">
+                                                    {{element.description ? element.description.length > 200 ?
+                                                    element.description.slice(0,200) + '...' : element.description :
+                                                    element.description}}
+                                                </div>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="createAt">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                CreateAt
+                                            </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{element.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                            [ngStyle]="{
+                                         'background-color': getRowBackgroundColorFileLineLog(row),'--dynamicColor':getRowBackgroundColorFileLineLog(row)}">
+                                        </tr>
+                                    </table>
+                                </div>
+                                <mat-paginator #fileLineMatPaginator class="flex justify-end"
+                                    [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                                    aria-label="Select page of periodic elements">
+                                </mat-paginator>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+</div>
+<!-- <mat-dialog-actions class="flex justify-center space-x-2 m-3">
+            <button mat-button (click)="dialogRef.close()"
+                class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+        </mat-dialog-actions> -->

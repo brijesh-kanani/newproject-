@@ -1,0 +1,23 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+
+.mapping-order {
+    .mapping_required {
+        .mat-form-field-appearance-outline .mat-form-field-outline {
+            color: red !important;
+        }
+
+        /* Font color */
+        input.mat-input-element {
+            color: red !important;
+        }
+    }
+
+    .mapping_label {
+        color: red !important;
+    }
+
+}

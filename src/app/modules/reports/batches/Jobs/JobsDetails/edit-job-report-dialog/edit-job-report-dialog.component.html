@@ -1,0 +1,55 @@
+<div class="bg-accent p-3">
+    <div class="flex justify-between items-center">
+        <div>
+            <span class="text-xl font-semibold text-white">{{data.action == 'create' ? 'Create' : 'Update'}} Job
+                Report</span>
+        </div>
+        <div>
+            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+                <mat-icon class="text-white">close</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <form name="jobEditForm" [formGroup]="jobEditForm">
+        <div class="tab-content">
+            <div class="main-content">
+                <div class="content">
+                    <mat-form-field appearance="outline" class="account-row w-full">
+                        <mat-label>File Name</mat-label>
+                        <input name="name" formControlName="FileName" matInput>
+                        <mat-error *ngIf="jobEditForm.get('FileName')?.hasError('required')">File Name
+                            is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="content">
+                    <mat-form-field appearance="outline" class="account-row w-full">
+                        <mat-label>Report Id</mat-label>
+                        <input name="name" formControlName="ReportId" matInput>
+                        <mat-error *ngIf="jobEditForm.get('ReportId')?.hasError('required')">Report Id
+                            is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="content">
+                    <mat-form-field appearance="outline" class="account-row w-full">
+                        <mat-label>Template Id</mat-label>
+                        <input name="name" formControlName="TemplateId" matInput>
+                        <mat-error *ngIf="jobEditForm.get('TemplateId')?.hasError('required')">Template Id
+                            is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="flex justify-center space-x-2 m-3">
+    <button mat-button (click)="dialogRef.close()"
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+    <button [disabled]="jobEditForm.invalid" mat-button (click)="saveJobEditForm()"
+        [ngClass]="jobEditForm.invalid ? 'bg-gray-300 rounded-lg' : 'bg-orange-500 rounded-lg'">
+        Save
+    </button>
+</mat-dialog-actions>

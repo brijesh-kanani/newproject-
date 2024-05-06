@@ -1,0 +1,125 @@
+<!-- <div class="grid">
+    <div class="flex justify-end mb-4 mr-4">
+        <button class="bg-orange-500" mat-raised-button (click)="createEmail()">Add Email
+        </button>
+    </div>
+    <fieldset>
+        <legend>
+            <h3 style="font-weight: 600; padding:0px 4px">Email List</h3>
+        </legend>
+        <div class="m-2">
+            <table mat-table [dataSource]="dataSource" class="table" matSort style="width: 500px">
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="emails">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.emails}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subject">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject </th>
+                    <td mat-cell *matCellDef="let element"> {{element.subject}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Actions">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="editEmail(element)">
+                                <mat-icon>edit</mat-icon> Edit
+                            </button>
+
+                            <button mat-menu-item (click)="activeInactiveEmail(element)">
+                                <mat-icon>{{element.isActive ? 'highlight_off': 'check_circle'}}</mat-icon>
+                                {{element.isActive ? 'Deactive' :
+                                'Active'}}
+                            </button>
+
+                            <button mat-menu-item (click)="deleteEmail(element)">
+                                <mat-icon>delete</mat-icon> Delete
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div *ngIf="dataSource.data.length == 0" class="mt-4 flex justify-center">
+                <span>No data to display</span>
+            </div>
+        </div>
+    </fieldset>
+</div> -->
+
+<!-- <mat-card class="mt-4 w-full"> -->
+<div class="content m-4">
+    <h5 class="text-xl font-semibold mt-2">Emails</h5>
+    <mat-form-field class="example-chip-list edit-alert-chip mt-2 w-full">
+        <input matInput placeholder="Enter emails" #emailInput (keydown.enter)="addMoreEmails(emailInput)">
+        <button mat-icon-button (click)="addMoreEmails(emailInput)" matTooltip="Add email" class="icon"
+            matTooltipPosition="below">
+            <mat-icon class=" bg-orange-500 rounded-full text-white text-lg">add</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <h5 class="text-lg font-semibold mt-2">Email List</h5>
+
+    <div class="mt-6 mb-8 border">
+        <div class="overflow-x-auto">
+            <table mat-table [dataSource]="emailRows" class="table" matSort>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="Id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.value}}
+                    </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="Action">
+                    <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button (click)="removeMoreEmails(element.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div *ngIf="emailRows.length == 0" class="m-4 flex justify-center">
+                <span>No data to display</span>
+            </div>
+        </div>
+        <!-- <mat-paginator [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator> -->
+    </div>
+    <!-- <div class="m-0 pt-0 flex justify-end mb-4">
+            <button mat-raised-button color="primary" (click)="submit()">
+                Save
+            </button>
+        </div> -->
+</div>
+<!-- </mat-card> -->

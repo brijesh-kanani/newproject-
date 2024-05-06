@@ -1,0 +1,131 @@
+<!-- Loading bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- Navigation -->
+<fuse-vertical-navigation class="dark grey-800 print:hidden" [mode]="isScreenSmall ? 'over' : 'side'"
+    [name]="'mainNavigation'" [navigation]="navigation.default" [opened]="fixedSidebar">
+    <!-- Navigation header hook -->
+    <ng-container fuseVerticalNavigationContentHeader>
+        <div class="flex items-center justify-center w-full p-4 grey-700">
+            <!-- Logo -->
+            <div class="logo">
+                <img class="logo-icon" src="assets/images/logo/logo.png">
+                <span class="logo-text secondary-text">Gen8</span>
+            </div>
+
+            <!-- Components -->
+            <!-- <div class="flex items-center ml-auto">
+                <notifications></notifications>
+               / <user [showAvatar]="false"></user>
+            </div> -->
+        </div>
+        <!-- User -->
+
+        <div class="profile grey-700 mb-20">
+            <div class="h5 email hint-text">{{ user?.NameUser || '' }}</div>
+            <div class="avatar-container p-5">
+                <img class="avatar " id="sidebar-img" src="assets/images/logo/logo.png">
+                <!-- <img class="avatar" id="sidebar-img" *ngIf="sidebarImageUrl" [src]="sidebarImageUrl"> -->
+            </div>
+        </div>
+
+
+    </ng-container>
+    <!-- Navigation footer hook -->
+    <ng-container fuseVerticalNavigationContentFooter>
+        <div class="flex flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12">
+            <img class="max-w-36" src="assets/images/avatars/profile.jpg">
+        </div>
+    </ng-container>.
+</fuse-vertical-navigation>
+
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-full min-w-0">
+
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 items-center w-full h-16 pl-4 md:pl-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
+        <!-- Navigation toggle button -->
+        <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
+            <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
+        </button>
+        <h2 class="ml-2 text-xl font-extrabold tracking-tight truncate">
+            {{headerName }}
+        </h2>
+
+
+
+        <!-- Components -->
+        <div class="flex items-center pl-2  ml-auto">
+            <h2 class="text-md font-bold countDown-class text-green-500" *ngIf="headerName == 'Dashboard'">
+                Refresh in {{countDown}}
+            </h2>
+            <div class="flex items-center mr-2 ml-1">
+                <!-- <notifications></notifications> -->
+                <user [showAvatar]="false"></user>
+            </div>
+            <!-- <div class="toolbar-separator"></div>
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+                <span class="username mr-2 md:inline-block">Welcome, Himanshu</span>
+                <mat-icon class="s-16 hidden xs:inline-block">keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="flex flex-col">
+                <button mat-menu-item class="mb-4">
+                    <mat-icon class="mr-2">account_circle</mat-icon>
+                    <span>My Profile</span>
+                </button>
+
+                <button mat-menu-item class="mb-4">
+                    <mat-icon class="mr-2">exit_to_app</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </mat-menu>  -->
+            <!-- <languages></languages> -->
+            <!-- <fuse-fullscreen class="hidden md:block"></fuse-fullscreen> -->
+            <!-- <search [appearance]="'bar'"></search> -->
+            <!-- <shortcuts></shortcuts> -->
+            <!-- <messages></messages> -->
+            <!-- <button
+                class="lg:hidden"
+                mat-icon-button
+                (click)="quickChat.toggle()">
+                <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
+            </button> -->
+
+        </div>
+        <!-- <div class="flex items-center justify-center">
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+                <span class="username mr-2 md:inline-block">Welcome, Himanshu</span>
+                <mat-icon class="s-16 hidden xs:inline-block">keyboard_arrow_down</mat-icon>
+            </button>
+        </div>
+
+        <mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="flex flex-col">
+            <button mat-menu-item class="mb-4">
+                <mat-icon class="mr-2">account_circle</mat-icon>
+                <span>My Profile</span>
+            </button>
+
+            <button mat-menu-item class="mb-4">
+                <mat-icon class="mr-2">exit_to_app</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu> -->
+    </div>
+
+    <!-- Content -->
+    <div class="flex flex-col flex-auto">
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+    </div>
+
+    <!-- Footer -->
+    <!--<div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
+        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
+    </div>-->
+
+</div>
+
+<!-- Quick chat -->
+<!-- <quick-chat #quickChat="quickChat"></quick-chat> -->

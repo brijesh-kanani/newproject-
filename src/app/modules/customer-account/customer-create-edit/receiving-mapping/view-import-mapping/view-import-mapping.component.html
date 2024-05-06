@@ -1,0 +1,152 @@
+<div class="input-file">
+    <!-- <div class="sample-order-file">
+        You can use the following <a class="template text-primary-500 underline" (click)="downloadSampleFile()">template</a>
+
+    </div> -->
+    <!-- <div class="odeo-container">
+        <div class="odeo-checkbox">
+            <mat-checkbox (change)="odeoMappingChange()">
+                ODEO Mapping
+            </mat-checkbox>
+        </div>
+    </div> -->
+    <div class="mt-2 container">
+        <div class="text-center">
+            <mat-form-field appearance="outline" class="account-row md:mr-2 sm:mr-0" style="width: 400px !important;">
+                <mat-label>Receiver Ftp</mat-label>
+                <mat-select [(value)]="receivingService.mappingFtpAccountData"  (selectionChange)="onreceiverFtpSelectionChange($event)">
+                    <mat-option *ngFor="let ftplist of receiverFtpList" [value]="ftplist.AccountId">
+                        {{ftplist.name}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="ftpForm.get('warehouse')?.hasError('required')">Warehouse
+                    is required</mat-error> -->
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="account-row md:ml-2 sm:ml-0" style="width: 400px !important">
+                <mat-label>Mapping Type</mat-label>
+                <mat-select [(value)]="receivingService.mappingTypesData" (selectionChange)="onreceiverMapTypeSelectionChange($event)" [disabled]="!this.receivingService.mappingFtpAccountData">
+                    <mat-option *ngFor="let type of mappingTypeList" [value]="type.key">
+                        {{type.key}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="ftpForm.get('warehouse')?.hasError('required')">Warehouse
+                    is required</mat-error> -->
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <div class="odeo-checkbox">
+           
+        </div> -->
+        <div>
+            <!-- <mat-checkbox class="odeo-checkbox" (change)="odeoMappingChange()" [(ngModel)]="odeoCheckbox">
+                ODEO Mapping
+            </mat-checkbox> -->
+            <div class="list-temp mr-8">
+                <mat-table #table [dataSource]="templete" class="table-list-temp-container">
+                    <!-- <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout="row" fxLayoutAlign="center" class="w-100-p break-all">
+                            Select
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp">
+                        <div class="break-all">
+                            <mat-checkbox [(ngModel)]="temp.checked" (change)="onCheckboxChange(temp)"></mat-checkbox>
+                        </div>
+                    </mat-cell>
+                </ng-container> -->
+                    <ng-container matColumnDef="templateName">
+                        <mat-header-cell *matHeaderCellDef>
+                            <div fxLayout="row" fxLayoutAlign="center" class="w-100-p">
+                                Mapping Id
+                            </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let temp">
+                            <div class="">{{temp.mappingDetails.ftpMappingId}}
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>
+                            <div fxLayout="row" fxLayoutAlign="center" class="w-100-p">
+                                Actions
+                            </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let temp">
+                            <!-- <div class="view-btn"> -->
+                            <button mat-icon-button (click)="viewModelOpen(temp)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="deleteTemplate(temp)" [disabled]="isOdeoMapping">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <!-- </div> -->
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let temp; columns: displayedColumns;">
+                    </mat-row>
+                </mat-table>
+                <div *ngIf="templete.length == 0" class="p-2 text-center">
+                    No mapping found
+                </div>
+            </div>
+            <!-- <div *ngFor="let temp of templete">
+            <div>
+                <mat-checkbox [(ngModel)]="temp.checked" (change)="onCheckboxChange(temp)">{{temp.name}}</mat-checkbox>
+                <mat-icon>visibility</mat-icon>
+            </div>
+        </div> -->
+        </div>
+
+        <input type="file" #fileInput style="display: none" (change)="handleFileInput($event)">
+        <mat-card *ngIf="(mappingData  && mappingData.length === 0) || (!mappingData)" id="drop-zone" [class]="isOdeoMapping ? 'drop-zone' : 'drop-zone cursor-pointer'"
+            (click)="fileInput.click()" (drop)="handleFileDrop($event)" (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)">
+            <mat-card-content>
+                <div class="content">
+                    <div class="icon">
+                        <mat-icon class="file-upload-icon">cloud_download</mat-icon>
+                    </div>
+                    <div class="file-info">
+                        <span *ngIf="selectedFileName" class="file-name">{{ selectedFileName }}</span>
+                        <span *ngIf="!selectedFileName" class="message">Drop file here or click to browse</span>
+                        <mat-error *ngIf="errorMessage" class="error">{{ errorMessage }}</mat-error>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="note mb-8">
+        <!-- <span>
+        <b>Note 1:</b> If you include multiple products in an order, please assign the same reference number to each
+        product SKU and for international orders (where domestic is false), a minimum order value
+        1 is required otherwise ignored this order.
+    </span> -->
+        <!-- <div class="mt-8">
+        <span>
+            <b>Note 1:</b> If you have more than 200 records, the order should be processed in the background.
+        </span>
+    </div> -->
+    </div>
+    <!-- <div class="mt-36" fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.lt-md="space-between center">
+    <mat-checkbox [(ngModel)]="isChecked" (change)='updateHeader($event)'>File contains</mat-checkbox>
+</div> -->
+    <div class="flex justify-end">
+        <button class="px-8" mat-flat-button [color]="'primary'"
+            [disabled]="horizontalStepperForm.get('step1').invalid" type="button" matStepperNext>
+            Next
+        </button>
+
+        <!-- <button *ngIf="(mappingData)" class="px-8" mat-flat-button [color]="'primary'" type="button"
+            matStepperNext>
+            Next
+        </button> -->
+
+        <!-- <button *ngIf="isOdeoMapping" class="px-8" mat-flat-button [color]="'primary'" type="button"
+            (click)="saveOdeoMapping()">
+            Save
+        </button> -->
+    </div>
+</div>

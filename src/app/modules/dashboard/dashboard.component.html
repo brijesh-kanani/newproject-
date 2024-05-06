@@ -1,0 +1,167 @@
+<div id="dashboard-component" class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- <div
+        class="flex ml-6 mr-6 mt-4 flex-col sm:flex-row flex-0  sm:items-center sm:justify-between border-b  dark:bg-transparent">
+        <div class="flex-1 min-w-0 shadow bg-card rounded-2xl p-2">
+            <h2 class="ml-2 text-xl font-extrabold tracking-tight truncate">
+                Dashboard
+            </h2>
+        </div>
+    </div> -->
+
+    <!-- Main -->
+    <div class="ml-6 mr-6 mt-4">
+        <div class="bg-card shadow rounded-2xl overflow-hidden">
+            <div class="grid xl:grid-cols-8 lg:grid-cols-8 md:grid-cols-8 grid-cols-8">
+                <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                    <!-- <div class="file-revived flex justify-between gap-6"> -->
+                    <div class="text-center w-full">
+                        <div class="mt-4 text-chart">
+                            <span class="text-2xl font-bold">Daily Imported Files</span>
+                        </div>
+                        <!-- speed meter chart -->
+                        <div id="filerevivedchart"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                    <div class="text-center w-full">
+                        <div class="mt-4 text-chart">
+                            <span class="text-2xl font-bold">Daily Files Processed</span>
+                        </div>
+                        <!-- speed meter chart -->
+                        <div id="fileprocessedchart"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                    <div class="text-center w-full">
+                        <div class="mt-4 text-chart">
+                            <span class="text-2xl font-bold">Daily Warning Files</span>
+                        </div>
+                        <!-- speed meter chart -->
+                        <div id="filerevivedchart1"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                    <div class="text-center w-full">
+                        <div class="mt-4 text-chart">
+                            <span class="text-2xl font-bold">Daily Error Files</span>
+                        </div>
+                        <!-- speed meter chart -->
+                        <div id="fileprocessedchart1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="ml-6 mr-6 mt-4">
+        <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-4">
+            <div class="warning-container">
+                <mat-icon class="icon">error</mat-icon>
+                <span class="warning-title">File Imported Failed:</span>
+            </div>
+        </div>
+    </div> -->
+    <div class="ml-6 mr-6 mt-4">
+        <div>
+            <div class="flex flex-col sm:flex-row flex-auto bg-card shadow rounded-2xl p-4">
+                <div class="sm:w-1/2 w-full flex flex-col border"
+                    [ngStyle]="notificationsData && notificationsData.statusData == 'success' ? { 'background-color': '#d3f0d6' } :  notificationsData && notificationsData.statusData == 'error' ? { 'background-color': '#ffebee' } : notificationsFlag ? { 'background-color': '#ffebee' } : { 'background-color': '#daeaf2' } ">
+                    <div class="ml-4 mt-2">
+                        <span class="text-2xl font-bold">Notifications</span>
+                    </div>
+                    <div class="warning-container mt-6"
+                        [ngStyle]="notificationsData && notificationsData.statusData == 'success' ? '' : { 'color':'#e57373' }">
+                        <div class="warning-item" *ngIf="notificationsData && notificationsData.FileErrorData">
+                            <mat-icon class="icon">error</mat-icon>
+                            <span class="warning-title">{{notificationsData.FileErrorData}}</span>
+                        </div>
+
+                        <div class="warning-item" *ngIf="notificationsData && notificationsData.customerPortalApi">
+                            <mat-icon class="icon">error</mat-icon>
+                            <span class="warning-title">{{notificationsData.customerPortalApi }}</span>
+                        </div>
+
+                        <div class="warning-item" *ngIf="notificationsData && notificationsData.genisysApi">
+                            <mat-icon class="icon">error</mat-icon>
+                            <span class="warning-title" *ngIf="notificationsData && notificationsData.genisysApi">
+                                {{notificationsData.genisysApi }}</span>
+                        </div>
+
+                        <div class="warning-item" *ngIf="notificationsData && notificationsData.fileProcessorAPIResult">
+                            <mat-icon class="icon">error</mat-icon>
+                            <span class="warning-title"
+                                *ngIf="notificationsData && notificationsData.fileProcessorAPIResult">
+                                {{notificationsData.fileProcessorAPIResult }}</span>
+                        </div>
+
+                        <div class="warning-item"
+                            *ngIf="notificationsData && notificationsData.statusData == 'success'">
+                            <mat-icon class="icon">check</mat-icon>
+                            <span class="warning-title">No Notifications</span>
+                        </div>
+
+                        <div class="warning-item" *ngIf="notificationsFlag">
+                            <mat-icon class="icon">error</mat-icon>
+                            <span class="warning-title">Connectivity Error - Importer</span>
+                        </div>
+
+                        <div class="warning-item" *ngIf="!notificationsData && !notificationsFlag"
+                            [ngStyle]="{ 'color':'#101112' }">
+                            <mat-icon class="icon">watch_later</mat-icon>
+                            <span class="warning-title">Fetching all notifications, Please wait...</span>
+                        </div>
+
+
+                        <!-- <div class="warning-item">
+                        <mat-icon class="icon">error</mat-icon>
+                        <span class="warning-title">Another Warning:</span>
+                    </div> -->
+                    </div>
+                </div>
+                <div class="flex flex-col sm:w-1/2 w-full sm:ml-4 ml-0 sm:mt-0 mt-4">
+                    <app-dashboard-file-log></app-dashboard-file-log>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ml-6 mr-6 mt-4" *ngIf="areaChartData && areaChartData.length > 0">
+        <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden p-4">
+            <div id="chart" class="flex flex-col flex-auto">
+                <div class="self-end mb-4">
+                    <button class="h-6 min-h-6 px-4 rounded-full bg-hover" mat-button [matMenuTriggerFor]="optionMenu">
+                        {{ selectedOption ? selectedOption : 'Today' }}
+                        <!-- <mat-icon>arrow_drop_down</mat-icon> -->
+                    </button>
+                    <mat-menu #optionMenu="matMenu">
+                        <ng-container>
+                            <button mat-menu-item [matMenuTriggerFor]="yearsMenu">Years</button>
+                            <mat-menu #yearsMenu="matMenu">
+                                <button mat-menu-item *ngFor="let year of years"
+                                    (click)="menuItemClicked('year',year)">{{
+                                    year
+                                    }}</button>
+                            </mat-menu>
+                            <button mat-menu-item [matMenuTriggerFor]="monthsMenu">Months</button>
+                            <mat-menu #monthsMenu="matMenu">
+                                <button mat-menu-item *ngFor="let month of months"
+                                    (click)="menuItemClicked('month',month)">{{ month
+                                    }}</button>
+                            </mat-menu>
+                            <button mat-menu-item (click)="menuItemClicked('thisWeek','This Week')">This
+                                Week</button>
+                            <button mat-menu-item (click)="menuItemClicked('today','Today')">Today</button>
+                        </ng-container>
+                    </mat-menu>
+                </div>
+            </div>
+            <div *ngIf="areaChartData && areaChartData.length > 0">
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [stroke]="chartOptions.stroke"
+                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                    [xaxis]="chartOptions.xaxis" [colors]="chartOptions.colors" [fill]="chartOptions.fill"
+                    [yaxis]="chartOptions.yaxis" [legend]="chartOptions.legend"></apx-chart>
+            </div>
+        </div>
+    </div>
+</div>

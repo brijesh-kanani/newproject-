@@ -1,0 +1,190 @@
+#batches {
+    ::ng-deep .mat-expansion-panel-header-title {
+        color: white !important;
+    }
+}
+
+fieldset {
+    border: dashed !important;
+    border-width: 1px !important;
+    border-color: #c7c7d2 !important;
+}
+
+.job-tab-content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.txt {
+    font-weight: 700;
+    max-width: 40%;
+}
+
+.job-attr-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.job-bold-style {
+    min-width: 35%;
+    font-weight: bold;
+}
+
+.job-row {
+    /* border: 2px solid hotpink; */
+    min-width: 50%;
+    width: 50%;
+    padding: 10px;
+}
+
+.tab-content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+.main-content {
+    width: 50%;
+}
+
+.account-row {
+    /* border: 2px solid hotpink; */
+    min-width: 50%;
+    width: 50%;
+    padding: 10px;
+}
+
+@media (max-width: 600px) {
+    .job-tab-content {
+        display: flex;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .job-row {
+        width: 100%;
+    }
+
+    .job-bold-style {
+        min-width: 40%;
+    }
+}
+
+.email-input-with-chips {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.custom-mat-form-field {
+    width: 100%; /* Ensures the form field takes up the full width */
+}
+
+.chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px; /* Adjusts space between the form field and the chips */
+    justify-content: flex-start; /* Aligns chips to the start */
+}
+
+.custom-chip {
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 16px;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.remove-icon {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.mat-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px 0;
+}
+
+.batch-view-header {
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+#customer {
+    width: 100%;
+}
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0 !important;
+}
+
+.page-layout.carded > .top-bg {
+    position: absolute !important;
+    z-index: 1 !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    height: 150px !important;
+}
+
+.page-layout.carded.fullwidth > .center > .header {
+    height: 90px !important;
+    min-height: 90px !important;
+    max-height: 90px !important;
+}
+
+.page-layout.carded.fullwidth > .center {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 0 auto !important;
+    position: relative !important;
+    z-index: 2 !important;
+    padding: 0 32px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
+.header {
+    padding: 15px !important;
+    position: relative !important;
+    flex: 1 0 auto !important;
+    text-align: center !important;
+}
+
+classy-layout .logo .logo-text {
+    margin-left: 12px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.4px !important;
+    line-height: normal !important;
+    color: white !important;
+}
+
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    color: white !important;
+}
+
+.back-arrow-style .mat-icon {
+    color: white !important;
+}
+
+.report-text {
+    margin-left: 12px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.4px !important;
+    line-height: normal !important;
+}

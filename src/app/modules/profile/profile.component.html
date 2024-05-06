@@ -1,0 +1,213 @@
+<div id="profile-component" class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- <div
+        class="flex ml-6 mr-6 mt-4 flex-col sm:flex-row flex-0  sm:items-center sm:justify-between border-b  dark:bg-transparent">
+        <div class="flex-1 min-w-0 shadow bg-card rounded-2xl p-2">
+            <h2 class="ml-2 text-xl font-extrabold tracking-tight truncate">
+                Profile
+            </h2>
+        </div>
+    </div> -->
+
+    <!-- Main -->
+    <div class="flex-auto ml-6 mr-6 mt-4">
+        <mat-card class="profile-card pb-4">
+            <!-- <mat-card-header>
+                <mat-card-title class="mb-3 font-semibold">User Filter</mat-card-title>
+            </mat-card-header> -->
+            <mat-card-content>
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div class="mat-elevation-z8 mt-4 p-8">
+                        <div class="mb-12 font-bold text-lg">
+                            User Details
+                        </div>
+                        <div *ngIf="editView">
+                            <div class="flex mt-4">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">First Name:</span>
+                                </div>
+                                <div class="flex-initial w-60">
+                                    <span class="text-lg break-all"
+                                        style="overflow-wrap: break-word;">{{userForm.get('firstName').value ||
+                                        ''}}</span>
+                                </div>
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">Last Name:</span>
+                                </div>
+                                <div class="flex-initial w-60">
+                                    <span class="text-lg break-all">{{userForm.get('lastName').value || ''}}</span>
+                                </div>
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">Email Address:</span>
+                                </div>
+                                <div class="flex-initial w-60">
+                                    <span class="text-lg break-all">{{userForm.get('email').value || ''}}</span>
+                                </div>
+                            </div>
+                            <div class="flex mt-4 mb-16">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">Phone Number:</span>
+                                </div>
+                                <div class="flex-initial w-60" style="overflow-wrap: break-word;">
+                                    <span class="text-lg break-all">{{userForm.get('phoneNumber').value || ''}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <form [formGroup]="userForm" class="space-y-8" *ngIf="!editView">
+                            <mat-form-field class="w-full">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName" placeholder="First Name" required
+                                    class="input">
+                                <mat-error *ngIf="userForm.get('firstName').hasError('required')">First Name is
+                                    required.</mat-error>
+                                <mat-error *ngIf="userForm.get('firstName')?.hasError('maxlength')">
+                                    First Name maximum length of 50 characters
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName" placeholder="Last Name" required
+                                    class="input">
+                                <mat-error *ngIf="userForm.get('lastName').hasError('required')">Last Name is
+                                    required.</mat-error>
+                                <mat-error *ngIf="userForm.get('lastName')?.hasError('maxlength')">
+                                    Last Name maximum length of 50 characters
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Email Address</mat-label>
+                                <input matInput formControlName="email" placeholder="Email" required class="input">
+                                <mat-error *ngIf="userForm.get('email').hasError('required')">Email is
+                                    required.</mat-error>
+                                <mat-error *ngIf="userForm.get('email').hasError('email')">Invalid email
+                                    format.</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Phone Number</mat-label>
+                                <input matInput formControlName="phoneNumber" placeholder="Phone Number" class="input">
+                                <mat-error *ngIf="userForm.get('phoneNumber').hasError('pattern')">Phone Number must be
+                                    valid</mat-error>
+                            </mat-form-field>
+                        </form>
+                        <div class="flex justify-end mt-2 space-x-2">
+                            <button mat-button (click)="editChangeProfile()" class="btn-secondary">{{editView ? 'Edit'
+                                : 'View'}}</button>
+                            <button mat-button (click)="onSave()" [disabled]="userForm.invalid"
+                                [ngClass]="{'bg-gray-200': userForm.invalid}" class="btn-primary">Save</button>
+                        </div>
+
+                    </div>
+                    <div class="mat-elevation-z8 mt-4 p-8">
+                        <div class="mb-12 font-bold text-lg">
+                            Update Password
+                        </div>
+                        <div *ngIf="editViewPassword">
+                            <div class="flex mt-4">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">Current Password:</span>
+                                </div>
+                                <div class="flex-initial w-60" style="overflow-wrap: break-word;">
+                                    <span class="text-lg break-all">{{userFormPassword.get('currentPassword').value ||
+                                        ''}}</span>
+                                </div>
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">New Password:</span>
+                                </div>
+                                <div class="flex-initial w-60" style="overflow-wrap: break-word;">
+                                    <span class="text-lg break-all">{{userFormPassword.get('password').value ||
+                                        ''}}</span>
+                                </div>
+                            </div>
+                            <div class="flex mt-4 mb-16">
+                                <div class="flex-none w-40 h-14">
+                                    <span class="font-bold text-lg">New Password (Confirm):</span>
+                                </div>
+                                <div class="flex-initial w-60" style="overflow-wrap: break-word;">
+                                    <span class="text-lg break-all">{{userFormPassword.get('passwordConfirm').value ||
+                                        ''}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <form [formGroup]="userFormPassword" class="space-y-8" *ngIf="!editViewPassword">
+                            <mat-form-field class="w-full">
+                                <mat-label>Current Password</mat-label>
+                                <input id="current-password" matInput type="password"
+                                    [formControlName]="'currentPassword'" #currentPassword>
+                                <button mat-icon-button type="button"
+                                    (click)="currentPassword.type === 'password' ? currentPassword.type = 'text' : currentPassword.type = 'password'"
+                                    matSuffix>
+                                    <mat-icon class="icon-size-5" *ngIf="currentPassword.type === 'password'"
+                                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    <mat-icon class="icon-size-5" *ngIf="currentPassword.type === 'text'"
+                                        [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                                </button>
+                                <mat-error *ngIf="userFormPassword.get('currentPassword').hasError('required')">
+                                    Current Password is required
+                                </mat-error>
+                                <mat-error *ngIf="userFormPassword.get('currentPassword').hasError('pattern')">
+                                    Password must be 1 uppercase, 1 lowercase, 1 special character, 1 digit, and minimum
+                                    6 characters.
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>New Password</mat-label>
+                                <input id="password" matInput type="password" [formControlName]="'password'"
+                                    #passwordField>
+                                <button mat-icon-button type="button"
+                                    (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                                    matSuffix>
+                                    <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                                        [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                                </button>
+                                <mat-error *ngIf="userFormPassword.get('password').hasError('required')">
+                                    Password is required
+                                </mat-error>
+                                <mat-error *ngIf="userFormPassword.get('password').hasError('pattern')">
+                                    Password must be 1 uppercase, 1 lowercase, 1 special character, 1 digit, and minimum
+                                    6 characters.
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- Password confirm field -->
+                            <mat-form-field class="w-full">
+                                <mat-label>New Password (Confirm)</mat-label>
+                                <input id="password-confirm" matInput type="password"
+                                    [formControlName]="'passwordConfirm'" #passwordConfirmField>
+                                <button mat-icon-button type="button"
+                                    (click)="passwordConfirmField.type === 'password' ? passwordConfirmField.type = 'text' : passwordConfirmField.type = 'password'"
+                                    matSuffix>
+                                    <mat-icon class="icon-size-5" *ngIf="passwordConfirmField.type === 'password'"
+                                        [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                    <mat-icon class="icon-size-5" *ngIf="passwordConfirmField.type === 'text'"
+                                        [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                                </button>
+                                <mat-error *ngIf="userFormPassword.get('passwordConfirm').hasError('required')">
+                                    Confirm Password is required
+                                </mat-error>
+                                <mat-error *ngIf="userFormPassword.get('passwordConfirm').hasError('mustMatch')">
+                                    Passwords must match
+                                </mat-error>
+                            </mat-form-field>
+                        </form>
+                        <div class="flex justify-end mt-2 space-x-2">
+                            <button mat-button (click)="editChangePassword()" class="btn-secondary">{{editViewPassword ?
+                                'Edit'
+                                : 'View'}}</button>
+                            <button mat-button (click)="onChangePassword()" [disabled]="userFormPassword.invalid"
+                                [ngClass]="{'bg-gray-200': userFormPassword.invalid}" class="btn-primary">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

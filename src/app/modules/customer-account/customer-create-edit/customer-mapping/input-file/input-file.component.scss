@@ -1,0 +1,149 @@
+.input-file {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // height: 300px;
+    padding: 10px;
+    place-content: stretch space-evenly;
+  }
+
+  .odeo-container {
+    display: flex;
+  }
+
+  .odeo-checkbox {
+    margin-left: -10px !important;
+  }
+
+
+  @media (max-width: 1200px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .list-temp {
+      margin-right: 0 !important;
+      margin-bottom: 10px;
+      width: 400px;
+    }
+  }
+
+  .drop-zone {
+    // width: auto;
+    min-width: 400px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+    // cursor: pointer;
+  }
+
+  @media (min-width: 1100px) {
+    .drop-zone {
+      width: 500px;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .list-temp {
+      width: 500px;
+    }
+  }
+
+  .list-temp {
+    // width: auto;
+    min-width: 400px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+  }
+
+  .drag-over {
+    background-color: #f2f2f2;
+  }
+
+  .file-upload-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .file-info {
+    text-align: center;
+  }
+
+  .file-name {
+    font-weight: bold;
+    word-break: break-all;
+  }
+
+  .message {
+    color: #999;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .icon {
+    text-align: center;
+  }
+
+  .select-warehouse {
+    text-align: -webkit-center;
+  }
+
+  .select-warehouse-dropdown {
+    width: 20%;
+  }
+
+  @media (max-width: 1100px) {
+    .select-warehouse-dropdown {
+      width: 30%;
+    }
+  }
+
+  @media (max-width: 750px) {
+    .select-warehouse-dropdown {
+      width: 100%;
+    }
+  }
+
+  ::ng-deep .search-warehouse .mat-form-field-wrapper {
+    padding: 0px !important;
+  }
+
+  .sample-order-file {
+    text-align: -webkit-center;
+
+    .template {
+      cursor: pointer;
+    }
+  }
+
+  .note {
+    margin-top: 40px;
+  }
+
+  .view-btn .mat-icon-button {
+    width: 0px !important;
+  }
+
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0 !important;
+  }
+
+  .table-list-temp-container .mat-mdc-cell,
+  .mat-mdc-header-cell {
+    border: 1px solid rgb(217, 213, 213);
+    place-content: center;
+  }
+
+  .mdc-data-table__row:last-child .mdc-data-table__cell {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  }
+}

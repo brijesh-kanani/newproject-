@@ -1,0 +1,76 @@
+/* Add these classes to your global styles or component styles */
+
+/* Styling for input fields */
+.input {
+    @apply border border-gray-300 px-3 py-4 rounded-md w-full focus:outline-none focus:border-indigo-500;
+}
+
+/* Styling for buttons */
+.btn-secondary {
+    @apply px-4 py-2 rounded-md bg-gray-300 text-gray-700 hover:bg-gray-400 focus:outline-none;
+}
+
+.btn-primary {
+    @apply px-4 py-2 rounded-md bg-orange-500 text-black hover:bg-orange-600 focus:outline-none;
+}
+
+.switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+.toggle-input:checked+.toggle-slider {
+    background-color: #fb8c00;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.toggle-input:checked+.toggle-slider:before {
+    transform: translateX(16px);
+}
+
+.user-header-dialog {
+    background-color: #fb8c00;
+}
+
+::ng-deep .create-user-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0px !important;
+}
+
+
+
+fieldset {
+    border: dashed !important;
+    border-width: 1px !important;
+    border-color: #c7c7d2 !important;
+}

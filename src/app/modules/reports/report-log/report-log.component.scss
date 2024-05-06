@@ -1,0 +1,16 @@
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0 !important;
+}
+
+.theme-amber.light .mdc-data-table__row:hover {
+    background-color: var(--dynamicColor) !important;
+}
+
+.file-download {
+    color: blue;
+    cursor: pointer;
+}
+
+.file-download:hover {
+    text-decoration: underline;
+}

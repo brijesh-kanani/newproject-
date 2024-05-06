@@ -1,0 +1,80 @@
+<div class="mat-container-table mapping-order">
+    <mat-table [dataSource]="tableData" class="overflow-auto mt-6" matSort>
+        <ng-container *ngFor="let column of displayedColumns; let i = index" [matColumnDef]="column">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef class="p-3">
+                <ng-container>
+                    <!-- <div>
+                        {{ generateMultiMappingString(extraDisplayedColumns[i],i) }}
+                    </div> -->
+                    <mat-form-field appearance="outline" class="w-full p-2">
+                        <input matInput [value]="generateMultiMappingString(extraDisplayedColumns[i],i)" readonly>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="addMultipleMappingDialog(extraDisplayedColumns[i],i)"
+                        [disabled]="checkDisabledFun(i)"
+                        [matTooltip]="checkMultiMappingDisabledFun(i) ? 'Update Conditional Mapping' : 'Add Conditional Mapping'">
+                        <mat-icon>{{checkMultiMappingDisabledFun(i) ? 'edit' : 'add'}}</mat-icon>
+                    </button>
+
+                    <button mat-icon-button *ngIf="checkMultiMappingDisabledFun(i)"
+                        (click)="removeMultipleMapping(extraDisplayedColumns[i],i)"
+                        matTooltip="Remove Conditional Mapping">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </ng-container>
+
+            </th>
+            <td mat-cell *matCellDef="let element" class="custom-header-cell" class="p-3">{{
+                extraDisplayedColumns[i][item] }}</td>
+        </ng-container>
+        <ng-container *ngFor="let column of addedColumns; let i = index" [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="1" class="p-3"
+                [class.mapping_required]="!selectedOptions[i]">
+                <mat-form-field appearance="outline">
+                    <mat-label [class.mapping_label]="!selectedOptions[i]">Select Column</mat-label>
+                    <mat-select (selectionChange)="setColumn($event,i)" [(ngModel)]="selectedOptions[i]"
+                        (openedChange)="resetData(i)" required>
+                        <mat-form-field appearance="outline" class="w-full p-2">
+                            <input matInput #input placeholder="Search Column" [(ngModel)]="searchedOptions[i]"
+                                (input)="filterColumns(i)" />
+                            <mat-icon matSuffix class="secondary-text" style="cursor: pointer"
+                                *ngIf="searchCtrlCountry?.value" (click)="searchCtrlCountry.setValue('')">close
+                            </mat-icon>
+                        </mat-form-field>
+                        <mat-option *ngFor="let option of filteredOptions[i]"
+                            [value]="option.value">{{option.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="flex justify-around">
+                    <div>
+                        <button mat-raised-button [disabled]="checkDisabledFunForFilter(i)"
+                            (click)="addFilterModel(column,i)">{{checkTextOfFilter(i)}}</button>
+                    </div>
+                    <div>
+                        <mat-checkbox [checked]="checkBoxRequired(i)" (change)="checkboxRequired($event.checked,i)"
+                            [disabled]="checkDisabledFunForFilter(i)" matTooltip="Required"></mat-checkbox>
+                    </div>
+
+                    <div>
+                        <mat-checkbox [checked]="checkBoxUpperCase(i)" (change)="checkboxUperCase($event.checked,i)"
+                            [disabled]="checkDisabledFunForFilter(i)" matTooltip="Uppercase"></mat-checkbox>
+                    </div>
+                </div>
+            </th>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="addedColumns" class="p-3"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="p-3"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="p-3"></tr>
+    </mat-table>
+
+    <div class="flex justify-end mt-8">
+        <div>
+            <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
+                Back
+            </button>
+            <button class="px-8 mr-2" mat-flat-button [color]="'primary'" type="button" (click)="saveTemplate()">
+                {{updateTxtBtn ? 'Update' : 'Create'}}
+                Mapping
+            </button>
+        </div>
+    </div>
+</div>

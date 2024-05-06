@@ -1,0 +1,31 @@
+.circle {
+    width: 23em;
+    height: 17em;
+    border-left: 2em solid #ec9494;
+    border-right: 1.6em solid #ec9494;
+    border-top: 2em solid #ec9494;
+    border-bottom: 2em solid #ec9494;
+    border-radius: 50%;
+}
+
+.total-ignore-record {
+    color: rgb(221, 107, 32);
+    ;
+}
+
+@media (min-width:600px) {
+    .apxchart {
+        height: 20rem;
+    }
+}
+
+#view-file-log {
+    ::ng-deep .mat-expansion-panel-body {
+        background-color: #e0e0e05c !important;
+        padding: 6px 24px 24px !important;
+    }
+
+    ::ng-deep .mat-expansion-panel-header-title {
+        color: #ffffff !important;
+    }
+}

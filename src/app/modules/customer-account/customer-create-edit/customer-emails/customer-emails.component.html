@@ -1,0 +1,212 @@
+<div id="customer-emails-component" class="flex flex-col flex-auto min-w-0">
+    <div>
+        <div
+            id="customer-emails-component"
+            class="flex flex-col flex-auto min-w-0"
+        >
+            <div class="flex-auto mb-4 ml-6 mr-6 mt-4">
+                <form [formGroup]="emailForm">
+                    <div>
+                        <mat-form-field class="w-full">
+                            <input
+                                matInput
+                                placeholder="Enter email"
+                                formControlName="email"
+                                aria-describedby="email-error"
+                                (keydown.enter)="addEmail()"
+                            />
+                            <mat-error
+                                *ngIf="
+                                    emailForm.controls.email.invalid &&
+                                    emailForm.controls.email.touched
+                                "
+                            >
+                                <span
+                                    *ngIf="
+                                        emailForm.controls.email.errors?.pattern
+                                    "
+                                    >Invalid email format</span
+                                >
+                            </mat-error>
+
+                            <button
+                                (click)="addEmail()"
+                                class="bg-orange-500 rounded-full flex justify-center items-center cursor-pointer"
+                                [disabled]="
+                                    emailForm.invalid || emailForm.pristine
+                                "
+                                [ngClass]="{
+                                    lowOpacity: emailForm.invalid,
+                                    highOpacity: !emailForm.invalid
+                                }"
+                                [style.opacity]="emailForm.invalid ? 0.5 : 1"
+                                matTooltip="Add"
+                            >
+                                <mat-icon
+                                    class="text-white p-0 m-0"
+                                    style="font-size: 20px"
+                                    >add</mat-icon
+                                >
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </form>
+
+                <div class="">
+                    <div class="overflow-x-auto border">
+                        <mat-table
+                            [dataSource]="dataSource"
+                            class="mat-table w-full text-center mt-4 border"
+                        >
+                            <div>
+                                <ng-container matColumnDef="id">
+                                    <mat-header-cell
+                                        *matHeaderCellDef
+                                        class="attr-row account-row"
+                                        >Id</mat-header-cell
+                                    >
+                                    <mat-cell
+                                        *matCellDef="
+                                            let emailItem;
+                                            let i = index
+                                        "
+                                        class="attr-row account-row"
+                                    >
+                                        {{ i + 1 }}
+                                    </mat-cell>
+                                </ng-container>
+                            </div>
+                            <div>
+                                <ng-container matColumnDef="email">
+                                    <mat-header-cell
+                                        *matHeaderCellDef
+                                        class="attr-row account-row"
+                                        >Email</mat-header-cell
+                                    >
+                                    <mat-cell
+                                        *matCellDef="let emailItem"
+                                        class="attr-row account-row"
+                                    >
+                                        <ng-container
+                                            *ngIf="
+                                                editRowId !== emailItem.id;
+                                                else editEmail
+                                            "
+                                        >
+                                            {{ emailItem.email }}
+                                        </ng-container>
+                                        <ng-template #editEmail>
+                                            <form
+                                                (ngSubmit)="
+                                                    saveEditedEmail(
+                                                        emailItem.id
+                                                    )
+                                                "
+                                            >
+                                                <div class="w-full">
+                                                    <input
+                                                        type="email"
+                                                        [formControl]="
+                                                            emailControl
+                                                        "
+                                                        class="w-full border p-2 my-1 rounded-md"
+                                                        [style.borderColor]="
+                                                            emailControl.invalid
+                                                                ? 'red'
+                                                                : ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </form>
+                                        </ng-template>
+                                    </mat-cell>
+                                </ng-container>
+                            </div>
+                            <div>
+                                <ng-container matColumnDef="actions">
+                                    <mat-header-cell
+                                        *matHeaderCellDef
+                                        class="flex justify-end attr-row account-row"
+                                        ><span class="">
+                                            Actions
+                                        </span></mat-header-cell
+                                    >
+
+                                    <mat-cell
+                                        *matCellDef="let emailItem"
+                                        class="flex justify-end attr-row account-row"
+                                    >
+                                        <ng-container
+                                            *ngIf="
+                                                editRowId !== emailItem.id;
+                                                else editEmailAction
+                                            "
+                                        >
+                                            <button
+                                                mat-icon-button
+                                                (click)="editRow(emailItem.id)"
+                                                *ngIf="
+                                                    editRowId !== emailItem.id
+                                                "
+                                                matTooltip="Edit"
+                                            >
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                            <button
+                                                mat-icon-button
+                                                (click)="
+                                                    deleteEmail(emailItem.id)
+                                                "
+                                                *ngIf="
+                                                    editRowId !== emailItem.id
+                                                "
+                                                matTooltip="Delete"
+                                            >
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </ng-container>
+                                        <ng-template #editEmailAction>
+                                            <button
+                                                mat-icon-button
+                                                [disabled]="!emailControl.valid"
+                                                (click)="
+                                                    saveEditedEmail(
+                                                        emailItem.id
+                                                    )
+                                                "
+                                                matTooltip="Save"
+                                            >
+                                                <mat-icon>done</mat-icon>
+                                            </button>
+
+                                            <button
+                                                mat-icon-button
+                                                (click)="cancelEdit()"
+                                                matTooltip="Cancel"
+                                            >
+                                                <mat-icon>clear</mat-icon>
+                                            </button>
+                                        </ng-template>
+                                    </mat-cell>
+                                </ng-container>
+                            </div>
+                            <mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></mat-header-row>
+                            <mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></mat-row>
+                            <!-- [ngStyle]="getRowBackgroundColor(row)" -->
+                        </mat-table>
+                    </div>
+                </div>
+                <div
+                    class="w-full flex justify-center border border-collapse"
+                    *ngIf="dataSource.data.length === 0"
+                >
+                    <span class="text-center py-2">No data to display</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

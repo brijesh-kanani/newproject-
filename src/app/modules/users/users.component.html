@@ -1,0 +1,87 @@
+<div id="user-component" class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- <div
+        class="flex ml-6 mr-6 mt-4 flex-col sm:flex-row flex-0  sm:items-center sm:justify-between border-b  dark:bg-transparent">
+            <h2 class="ml-2 text-xl font-extrabold tracking-tight truncate">
+                Users
+            </h2>
+        </div>
+    </div> -->
+
+    <!-- Main -->
+    <div>
+        <div class="flex-auto mb-4 ml-6 mr-6 mt-4">
+            <div>
+                <app-users-filter (filtersApplied)="applyUserFilters($event)" [roleList]="roleList"></app-users-filter>
+            </div>
+
+            <div class="mat-elevation-z8 mt-4">
+                <div class="overflow-x-auto">
+                    <table mat-table [dataSource]="dataSource" class="table" matSort (matSortChange)="getUsers()">
+
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="firstName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.firstName + ' ' + element.lastName}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="phoneNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+                            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                        </ng-container>
+
+                        <!-- Symbol Column -->
+                        <!-- <ng-container matColumnDef="active">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-icon class="active" *ngIf='element.active'>check_circle</mat-icon>
+                            <mat-icon class="deactive" *ngIf='!element.active'>cancel</mat-icon>
+                        </td>
+                    </ng-container> -->
+
+                        <!-- Action Column -->
+                        <ng-container matColumnDef="action">
+                            <th class="w-10" mat-header-cell *matHeaderCellDef> Action </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Actions">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="editUser(element)">
+                                        <mat-icon>edit</mat-icon> Edit
+                                    </button>
+                                    <button mat-menu-item (click)="resetUserPassword(element)">
+                                        <mat-icon>settings_backup_restore</mat-icon> Reset Password
+                                    </button>
+                                    <button mat-menu-item (click)="deleteUser(element)">
+                                        <mat-icon>delete</mat-icon> Delete
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </div>
+        <div class="fixed bottom-0 right-0 m-4">
+            <div (click)="createUser()"
+                class="flex items-center justify-center w-12 h-12 bg-orange-500 rounded-full shadow-lg cursor-pointer">
+                <mat-icon class="text-white text-3xl">person</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>

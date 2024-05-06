@@ -1,0 +1,36 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto m-4">
+        <div class="flex justify-between items-center mb-3">
+            <div class="font-bold text-xl pl-4">Add/Edit Jobs</div>
+            <div>
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    (click)="goBack()"
+                >
+                    Back
+                </button>
+            </div>
+        </div>
+
+        <div class="mat-elevation-z8">
+            <div class="overflow-x-auto">
+                <div class="bg-card shadow rounded overflow-hidden">
+                    <mat-stepper [linear]="isLinear" #stepper>
+                        <mat-step label="Job Configuration">
+                            <app-job-configuration></app-job-configuration>
+                        </mat-step>
+                        <mat-step label="Add Reports">
+                            <app-job-add-report></app-job-add-report>
+                        </mat-step>
+                        <mat-step label="Schedular">
+                            <app-job-scheduler></app-job-scheduler>
+                        </mat-step>
+                    </mat-stepper>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

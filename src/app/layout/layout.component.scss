@@ -1,0 +1,84 @@
+layout {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    /* Base styles for individual layouts */
+    >* {
+        position: relative;
+        display: flex;
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    /* Base styles for components that load as a route */
+    router-outlet {
+
+        +* {
+            position: relative;
+            display: flex;
+            flex: 1 1 auto;
+            width: 100%;
+        }
+    }
+
+    .grey-800 {
+        background-color: #424242 !important;
+        color: white !important;
+    }
+
+    .grey-700 {
+        background-color: #616161 !important;
+        color: white !important;
+    }
+
+
+}
+
+
+.snack-panel-error {
+    background: red !important;
+    color: white !important;
+
+    .mat-button-wrapper {
+        color: white !important;
+    }
+}
+
+.snack-panel-success {
+    background: green !important;
+    color: white !important;
+
+    .mat-button-wrapper {
+        color: white !important;
+    }
+}
+
+.snack-panel-warning {
+    background: #ffedca !important;
+    color: black !important;
+
+    .mat-button-wrapper {
+        color: black !important;
+    }
+
+}
+
+.snack-panel-info {
+    background: #d6b48a !important;
+    color: black !important;
+
+    .mat-button-wrapper {
+        color: black !important;
+    }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    background-color: var(--panelClass) !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    text-align-last: center !important;
+}

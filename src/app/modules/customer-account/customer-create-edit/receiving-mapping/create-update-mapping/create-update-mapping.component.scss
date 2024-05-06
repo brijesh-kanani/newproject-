@@ -1,0 +1,88 @@
+.mapping-order {
+    .table-container {
+        margin-top: 20px !important;
+        overflow: auto !important;
+    }
+
+    .table-container table {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgb(217, 213, 213);
+    }
+
+    .table-container table,
+    th,
+    td {
+        min-width: 200px;
+        border: 1px solid rgb(217, 213, 213);
+        border-collapse: collapse;
+        padding: 12px;
+    }
+
+    .table-container table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
+
+    .table-container table tr:nth-child(0) {
+        background-color: #f1f1f1;
+    }
+
+
+    .table-container table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .custom-table td {
+        min-width: 180px;
+    }
+
+    .icon {
+        text-align: center;
+    }
+
+    .main-dialog {
+        width: auto;
+    }
+
+
+    th.mat-header-cell:first-of-type,
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type {
+        padding: 10px !important;
+    }
+
+    th.mat-header-cell:last-of-type,
+    td.mat-cell:last-of-type,
+    td.mat-footer-cell:last-of-type {
+        padding: 10px !important;
+    }
+
+    th.mat-header-cell,
+    td.mat-cell,
+    td.mat-footer-cell {
+        padding: 10px !important;
+    }
+
+    ::ng-deep .create-templete-dialog .mat-dialog-container {
+        padding: 0 !important;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .input-file .list-temp {
+        min-width: 0 !important;
+    }
+
+    .table-list-temp-container {
+        width: 200px !important;
+    }
+
+    .input-file .drop-zone {
+        min-width: 200px !important;
+    }
+}

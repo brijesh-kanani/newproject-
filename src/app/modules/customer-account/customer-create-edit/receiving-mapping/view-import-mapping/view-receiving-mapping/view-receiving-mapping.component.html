@@ -1,0 +1,220 @@
+<div class="view-modal-input">
+    <div class="main-dialog p-0">
+        <div class="bg-accent p-3">
+            <div class="flex justify-between items-center">
+                <span class="text-xl font-semibold text-white">{{showFilterFlag ? 'View Filter Mapping' : 'View Mapping'}}</span>
+                <div>
+                    <button mat-icon-button class="mr-2" (click)="toggleFullscreen()">
+                        <mat-icon class="text-white">{{isfullScreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                        <mat-icon class="text-white">close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div mat-dialog-content class="p-4 pb-0 m-0 overflow-y-auto"
+            [style]="isfullScreen ? 'max-height: 80vh' : 'max-height: 500px'">
+            <mat-table #table [dataSource]="dataSource" class="table-list-model" *ngIf="!showFilterFlag">
+
+                <ng-container matColumnDef="selectOption">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout=" row" fxLayoutAlign="space-between center" class="w-100-p">
+                            Database column
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp">
+                        <div class="break-all">{{temp.mapTo}}</div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p">
+                            CSV column
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp;let i = index">
+                        <ng-container *ngIf="i !== mappingEditedRowIndex; else editField">
+                            <span class="csv-text-wrap"> {{ temp.field ? temp.field : temp.multiField }}</span>
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <input matInput [(ngModel)]="temp.field" placeholder="CSV column"  (keydown)="onKeyDown($event)"  required>
+                            </mat-form-field>
+                        </ng-template>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout=" row" fxLayoutAlign="space-between center" class="w-100-p">
+                            Actions
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp; let i = index">
+                        <button matTooltip="View Filter" mat-icon-button (click)="showFilterTabel(temp)"
+                            [disabled]="temp.filterDetails.length == 0">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <ng-container *ngIf="i !== mappingEditedRowIndex; else editActions">
+                            <div class="flex" *ngIf="!_data.odeoFlag">
+                                <button [matTooltip]="temp.multiField ? 'Edit from update mapping' : 'Edit Mapping'" [disabled]="temp.multiField != ''" mat-icon-button (click)="mappingEditRow(temp,i)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-template #editActions>
+                            <div class="flex">
+                                <button mat-icon-button (click)="mappingSaveRow(i)">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="mappingCancelEdit(temp,i)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </ng-template>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let temp; columns: displayedColumns;">
+                </mat-row>
+            </mat-table>
+
+            <!-- <div class="flex justify-end" *ngIf="showFilterFlag">
+                <button mat-raised-button color="primary" (click)="addRow()">Add Row</button>
+            </div> -->
+            <table mat-table [dataSource]="filterDataSource" *ngIf="showFilterFlag">
+                <ng-container matColumnDef="search">
+                    <th mat-header-cell *matHeaderCellDef class="w-60" mat-sort-header>Search</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-60">
+                        <ng-container *ngIf="i !== editedRowIndex; else editField">
+                            {{ element.search }}
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <input matInput [(ngModel)]="element.search" placeholder="Search" required>
+                            </mat-form-field>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="replace">
+                    <th mat-header-cell *matHeaderCellDef class="w-60" mat-sort-header>Replace</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-60">
+                        <ng-container *ngIf="i !== editedRowIndex; else editField">
+                            {{ element.replace }}
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <input matInput [(ngModel)]="element.replace" placeholder="Replace" required>
+                            </mat-form-field>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="searchType">
+                    <th mat-header-cell *matHeaderCellDef class="w-60" mat-sort-header>Search Type</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-60">
+                        <ng-container *ngIf="i !== editedRowIndex; else editField">
+                            {{ element.searchType }}
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <mat-select [(ngModel)]="element.searchType" placeholder="Search Type" required>
+                                    <mat-option *ngFor="let searchType of searchTypeList" [value]="searchType.value">
+                                        {{searchType.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="replace_whole_field">
+                    <th mat-header-cell *matHeaderCellDef class="w-60" mat-sort-header>Replace Whole Field</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-60">
+                        <ng-container *ngIf="i !== editedRowIndex; else editField">
+                            {{ element.replaceWholeField }}
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <mat-select [(ngModel)]="element.replaceWholeField" placeholder="Replace Whole Field"
+                                    required>
+                                    <mat-option *ngFor="let replaceWholeField of replaceWholeFieldList"
+                                        [value]="replaceWholeField.value">
+                                        {{replaceWholeField.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ignore_case">
+                    <th mat-header-cell *matHeaderCellDef class="w-60" mat-sort-header>Ignore Case</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-60">
+                        <ng-container *ngIf="i !== editedRowIndex; else editField">
+                            {{ element.ignoreCase }}
+                        </ng-container>
+                        <ng-template #editField>
+                            <mat-form-field class="w-full mt-4">
+                                <mat-select [(ngModel)]="element.ignoreCase" placeholder="Ignore Case" required>
+                                    <mat-option *ngFor="let ignoreCase of ignoreCaseList" [value]="ignoreCase.value">
+                                        {{ignoreCase.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef class="w-32">Actions</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="w-32">
+                        <ng-container *ngIf="i !== editedRowIndex; else editActions">
+                            <div class="flex">
+                                <button mat-icon-button (click)="editRow(element,i)" [disabled]="_data.odeoFlag">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="deleteFilterRow(element)" [disabled]="_data.odeoFlag">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-template #editActions>
+                            <div class="flex">
+                                <button mat-icon-button (click)="saveRow(i)">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="cancelEdit(element,i)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="filterDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: filterDisplayedColumns;"></tr>
+            </table>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="m-0 pt-0 mt-6 flex justify-center items-center mb-4">
+            <button *ngIf="showFilterFlag" class="mr-2 bg-accent text-white hover:bg-accent-dark px-4 py-2 rounded-lg"
+                (click)="backButtonFun()">
+                Back
+            </button>
+
+            <button class="bg-accent text-white hover:bg-accent-dark px-4 py-2 rounded-lg" *ngIf="!showFilterFlag"
+                (click)="matDialogRef.close(false)">
+                Close
+            </button>
+            <!-- <button class="bg-accent text-white hover:bg-accent-dark px-4 py-2 rounded-lg"
+            *ngIf="showFilterFlag" (click)="saveFilter()">
+                Save
+            </button> -->
+        </div>
+    </div>
+</div>

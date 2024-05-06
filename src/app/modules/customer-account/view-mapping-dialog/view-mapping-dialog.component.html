@@ -1,0 +1,46 @@
+<div class="view-modal-input">
+    <div class="main-dialog p-0">
+        <div class="bg-accent p-3">
+            <div class="flex justify-between items-center">
+                <span class="text-xl font-semibold text-white">View Template</span>
+                <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div mat-dialog-content class="p-4 pb-0 m-0 overflow-y-auto" style="max-height: 500px;">
+            <mat-table #table [dataSource]="dataSource" class="table-list-model">
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100-p">
+                            CSV column
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp">
+                        <div class="break-all">{{temp.field}} </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="selectOption">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div fxLayout=" row" fxLayoutAlign="space-between center" class="w-100-p">
+                            Database column
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let temp">
+                        <div class="break-all">{{temp.map_to}}</div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let temp; columns: displayedColumns;">
+                </mat-row>
+            </mat-table>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="m-0 pt-0 mt-6 flex justify-center items-center mb-4">
+            <button class="bg-accent text-white hover:bg-accent-dark px-4 py-2 rounded-lg"
+                (click)="matDialogRef.close(false)">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>

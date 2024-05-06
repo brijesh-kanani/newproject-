@@ -1,0 +1,64 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Report Log Filter
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="filterForm" class="filter-form">
+        <div class="grid xl:grid-cols-7 lg:grid-cols-7 gap-4">
+            <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <mat-label>Select Account</mat-label>
+                    <mat-select placeholder="Select Account" formControlName="account"
+                        (openedChange)="searchAccount.setValue('')">
+                        <mat-form-field class="w-full p-2" *ngIf="localUser.IdRole == 1">
+                            <input matInput #input placeholder="Search Account" [formControl]="searchAccount"
+                                (keydown)="onKeydown($event, input)" />
+                            <mat-icon matSuffix class="secondary-text" style="cursor: pointer"
+                                *ngIf="searchAccount?.value" (click)="searchAccount.setValue('')">close
+                            </mat-icon>
+                        </mat-form-field>
+                        <mat-option *ngIf="localUser.IdRole == 1" value=''>All</mat-option>
+                        <mat-option *ngFor="let account of filterAccountList | async"
+                            [value]="account.AccountNumber">{{account.AccountName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <mat-label>From Date</mat-label>
+                    <input matInput [matDatepicker]="fromDate" formControlName="fromDate" placeholder="From Date">
+                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <mat-label>To Date</mat-label>
+                    <input matInput [matDatepicker]="toDate" formControlName="toDate" placeholder="To Date">
+                    <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                    <mat-datepicker #toDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <!-- <div class="lg:col-span-2 xl:col-span-2 md:col-span-4 sm:col-span-4 col-span-8">
+                <mat-form-field class="w-full">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status" placeholder="Status">
+                        <mat-option value=''>All</mat-option>
+                        <mat-option *ngFor="let status of statusList" [value]="status.value">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+
+            <div class="lg:col-span-1 xl:col-span-1 col-span-8 text-end">
+                <button mat-raised-button color="primary" class="sm:w-28 w-full lg:mt-6"
+                    (click)="applyFilters()">Search</button>
+            </div>
+        </div>
+    </form>
+</mat-expansion-panel>

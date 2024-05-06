@@ -1,0 +1,30 @@
+<div id="configuration" class="m-6 w-full">
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header style="background-color: currentColor;">
+            <mat-panel-title>
+                Configuration
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="mt-6">
+            <form [formGroup]="filterForm" class="filter-form">
+                <mat-form-field class="w-full">
+                    <mat-label>Enter second for refresh dashboard</mat-label>
+                    <input matInput formControlName="dashboardRefreshSecond"
+                        placeholder="Enter second for refresh dashboard" required>
+                    <mat-error *ngIf="filterForm.get('dashboardRefreshSecond').hasError('pattern')">
+                        Only numeric values are allowed.
+                    </mat-error>
+                    <mat-error *ngIf="filterForm.get('dashboardRefreshSecond').hasError('min')">
+                        Value must be greater than 0.
+                    </mat-error>
+                </mat-form-field>
+            </form>
+            <div class="flex justify-end">
+                <button [disabled]="filterForm.invalid" mat-button (click)="applyFilters()"
+                [ngClass]="filterForm.invalid ? 'bg-gray-300 rounded-lg' : 'bg-orange-500 rounded-lg'">
+                Save
+            </button>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</div>

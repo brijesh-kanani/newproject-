@@ -1,0 +1,204 @@
+classy-layout {
+    .logo {
+        display: flex;
+        align-items: center;
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .logo-text {
+            margin-left: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+            line-height: normal;
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .email-text {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+    }
+
+    .profile {
+        flex-direction: column;
+        box-sizing: border-box;
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        height: 136px;
+        max-height: 136px;
+        padding: 24px 0 64px 0;
+    }
+
+    .avatar-container {
+        position: absolute;
+        top: 92px;
+        border-radius: 50%;
+        padding: 8px;
+        transform: translateX(-50%);
+        left: 50%;
+        background-color: #424242 !important;
+        color: white;
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            margin: 0;
+            min-width: 40px;
+            min-height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+
+    .user-button {
+        min-width: 64px;
+        height: 64px;
+    }
+
+    .toolbar-separator {
+        height: 64px;
+        width: 1px;
+        background: rgba(0, 0, 0, 0.12);
+        // @include media-breakpoint('xs') {
+        //     height: 56px;
+        // }
+    }
+
+    .progress-container {
+        position: relative;
+        width: 200px;
+        cursor: pointer;
+
+        .mat-mdc-progress-bar {
+            border-radius: 10px !important;
+            --mdc-linear-progress-active-indicator-height: 18px !important;
+            --mdc-linear-progress-track-height: 18px !important;
+        }
+
+        .progress-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgb(1, 1, 1);
+            font-weight: bold;
+        }
+    }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0 !important;
+}
+
+
+.uploadfile-show {
+    cursor: pointer;
+
+
+    @keyframes uploading-arrow {
+        0% {
+            margin-bottom: -40%;
+            opacity: 0;
+        }
+
+        20% {
+            opacity: 1
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        75% {
+
+            opacity: 0;
+        }
+
+        100% {
+            margin-bottom: 10%;
+        }
+    }
+
+    @keyframes uploading-arrow-complete {
+        from {
+            margin-bottom: -30%;
+            opacity: 0;
+        }
+
+        to {
+            margin-bottom: 0;
+            opacity: 1;
+            fill: #46BB39;
+        }
+    }
+
+    .upload-btn-container {
+        position: relative;
+        overflow: hidden;
+        width: 32px;
+        height: 32px;
+        display: inline-block;
+
+
+        svg {
+            position: absolute;
+
+            &.upload-box {
+                bottom: -7px;
+            }
+
+            &.upload-arrow {
+                left: 6px;
+                position: absolute;
+                opacity: 0;
+                bottom: 20%;
+                animation: uploading-arrow 1.5s ease-out infinite;
+            }
+        }
+
+        &.upload-complete {
+
+            .upload-arrow {
+                animation: uploading-arrow-complete 1.5s ease-out 1;
+                transition: fill 1.5s ease-out;
+            }
+
+            svg {
+                opacity: 1;
+            }
+
+            path {
+                fill: #46BB39;
+            }
+        }
+    }
+}
+
+.mat-mdc-paginator .mat-mdc-paginator-container {
+    justify-content: end !important;
+}
+
+
+
+.countDown-class {
+    animation: blink-animation-count 1s infinite alternate;
+}
+
+
+@keyframes blink-animation-count {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.5;
+    }
+}

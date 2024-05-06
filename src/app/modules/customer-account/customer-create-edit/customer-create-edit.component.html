@@ -1,0 +1,71 @@
+<div id="customer" class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg grey-800 headeraccount"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+        <!-- HEADER -->
+        <div
+            class="header grey-800"
+            fxLayout="row"
+            fxLayout.lt-sm="column"
+            fxLayoutAlign="space-between center"
+        >
+            <!-- APP TITLE -->
+            <div class="logo">
+                <button
+                    mat-icon-button
+                    class="back-arrow-style"
+                    [routerLink]="['/accounts']"
+                >
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <mat-icon class="logo-icon s-32"> account_circle </mat-icon>
+                <span class="logo-text h1 pr-12">{{ userName || "-" }}</span>
+            </div>
+            <!-- <div fxLayout="row wrap">
+                <div class="item">
+                    <mat-icon>account_circle</mat-icon>
+                </div>
+                <div class="item accountName">
+                    <span></span>
+                </div>
+            </div> -->
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <mat-card>
+            <!-- CONTENT -->
+            <div class="content">
+                <mat-tab-group>
+                    <mat-tab label="Account Profile">
+                        <app-customer-profile></app-customer-profile>
+                    </mat-tab>
+                    <mat-tab label="FTP Details">
+                        <app-customer-ftp-details></app-customer-ftp-details>
+                    </mat-tab>
+                    <mat-tab label="Order Mapping">
+                        <app-customer-mapping></app-customer-mapping>
+                    </mat-tab>
+                    <mat-tab label="Receiving Mapping">
+                        <app-receiving-mapping></app-receiving-mapping>
+                    </mat-tab>
+                    <mat-tab label="File logs">
+                        <app-file-log></app-file-log>
+                    </mat-tab>
+                    <mat-tab label="Reports">
+                        <app-customer-reports></app-customer-reports>
+                    </mat-tab>
+                    <mat-tab label="Emails">
+                        <app-customer-emails></app-customer-emails>
+                    </mat-tab>
+                </mat-tab-group>
+
+                <!-- /CONTENT -->
+            </div>
+        </mat-card>
+        <!-- CONTENT CARD -->
+    </div>
+</div>

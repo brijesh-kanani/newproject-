@@ -1,0 +1,17 @@
+export const environment = {
+    production: false,
+    hmr: false,
+    staging: true,
+    // url: 'http://192.168.11.247:5002',
+    // url: 'http://it06/customerportal',
+    receivingUrl:window["env"]["receivingUrl"],
+    url: window["env"]["apiUrl"],
+    hUrl: window["env"]["hUrl"],
+    phUrl: window["env"]["phUrl"],
+    csurl: window["env"]["csurl"],
+    inProgressTime: window["env"]["inProgressTime"],
+    reUploadUrl: window["env"]["reUploadUrl"],
+    refreshTimeForFilelog: window["env"]["refreshTimeForFilelog"],
+    // url: 'https://fbsgateway.greenmushroom-bbce887c.australiaeast.azurecontainerapps.io',
+    tokenKey: 'accessToken',
+};

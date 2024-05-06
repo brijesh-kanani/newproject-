@@ -1,0 +1,61 @@
+  #customer{
+    width: 100%;
+  }
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+        padding: 0 !important;
+    }
+
+    .page-layout.carded>.top-bg {
+        position: absolute !important;
+        z-index: 1 !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        height: 150px !important;
+    }
+
+    .page-layout.carded.fullwidth>.center>.header {
+        height: 90px !important;
+        min-height: 90px !important;
+        max-height: 90px !important;
+    }
+
+    .page-layout.carded.fullwidth>.center {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 0 auto !important;
+        position: relative !important;
+        z-index: 2 !important;
+        padding: 0 32px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+    }
+
+    .header {
+        padding: 15px !important;
+        position: relative !important;
+        flex: 1 0 auto !important;
+        text-align: center !important;
+    }
+
+    classy-layout .logo .logo-text {
+        margin-left: 12px !important;
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.4px !important;
+        line-height: normal !important;
+        color: white !important;
+    }
+
+    .logo-icon {
+        width: 24px;
+        height: 24px;
+        color: white !important;
+    }
+
+    .back-arrow-style .mat-icon {
+        color: white !important;
+    }
