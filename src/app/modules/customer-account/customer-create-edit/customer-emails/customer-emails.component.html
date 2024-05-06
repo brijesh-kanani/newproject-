@@ -13,7 +13,6 @@
                                 placeholder="Enter email"
                                 formControlName="email"
                                 aria-describedby="email-error"
-                                (keydown.enter)="addEmail()"
                             />
                             <mat-error
                                 *ngIf="
@@ -109,7 +108,7 @@
                                                         [formControl]="
                                                             emailControl
                                                         "
-                                                        class="w-full border p-2 my-1 rounded-md"
+                                                        class="border p-2 rounded-md"
                                                         [style.borderColor]="
                                                             emailControl.invalid
                                                                 ? 'red'

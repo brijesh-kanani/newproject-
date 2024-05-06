@@ -271,4 +271,54 @@ export class CustomerAccountService {
                 }, reject);
         });
     }
+    // http://192.168.1.51:8081/api/Account/GetEmail?accountId=1083
+
+    getJobsByAccount(data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http
+                .get(
+                    `http://192.168.1.51:8081/api/Job/GetJobsByAccount?accountId=${data}`
+                )
+                .subscribe((response: any) => {
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    getEmailsByAccount(data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http
+                .get(
+                    `http://192.168.1.51:8081/api/Account/GetEmail?accountId=${data}`
+                )
+                .subscribe((response: any) => {
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    createEditEmailForAccount(data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http
+                .post(
+                    `http://192.168.1.51:8081/api/Account/CreateUpdateEmail`,
+                    data
+                )
+                .subscribe((response: any) => {
+                    resolve(response);
+                }, reject);
+        });
+    }
+
+    deleteEmailForAccount(data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http
+                .delete(
+                    `http://192.168.1.51:8081/api/Account/DeleteEmail?id=${data}`
+                )
+                .subscribe((response: any) => {
+                    resolve(response);
+                }, reject);
+        });
+    }
 }

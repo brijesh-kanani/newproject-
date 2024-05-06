@@ -106,6 +106,7 @@ export class ReportJobListComponent {
     batchList: any;
     filterAccountList: any;
     filterBatchList: any;
+    accountNumber: number;
     constructor(
         private snack: MatSnackBar,
         private dialog: MatDialog,
@@ -156,6 +157,15 @@ export class ReportJobListComponent {
             customerName: [''],
             selectBatch: [''],
         });
+
+        if (
+            this.customerAccountService.editCrateUser &&
+            this.customerAccountService.editCrateUser.user
+        ) {
+            this.accountNumber =
+                this.customerAccountService.editCrateUser.user.AccountNumber;
+            console.log(this.accountNumber, 'aaaa');
+        }
     }
 
     private _filterAccountName(name: string): any[] {

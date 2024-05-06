@@ -21,9 +21,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SnackBar } from 'app/layout/common/snack-bar/snack-bar.class';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AngularCommonModule } from 'app/mock-api/common/angular-common.modules';
+import { CustomerAccountService } from '../../customer-account.service';
 
 interface EmailItem {
     id: number;
+    accountNumber: number;
     email: string;
 }
 @Component({
@@ -56,19 +58,25 @@ export class CustomerEmailsComponent {
     displayedColumns: any = ['id', 'email', 'actions'];
     snackbar: SnackBar;
     dataSource = new MatTableDataSource();
+    //api binding--------------
+    accountNumber: number;
+    emailsListOfAccount: EmailItem[];
+    emailToAdd: object;
+    emailToEdit: object;
+    //-------------------------
 
     emailForm: FormGroup;
     emailControl: FormControl;
     newEmail: string = '';
     editRowId: number = -1;
-
-    emailsList: EmailItem[] = [
-        { id: 1, email: 'brijesh1@gmail.com' },
-        { id: 2, email: 'shivam1@gmail.com' },
-    ];
     editedEmail: any;
 
-    constructor(private fb: FormBuilder, public matsnackBar: MatSnackBar) {
+    constructor(
+        private fb: FormBuilder,
+        public matsnackBar: MatSnackBar,
+        private _spinner: NgxSpinnerService,
+        private customerAccountService: CustomerAccountService
+    ) {
         this.emailForm = fb.group({
             email: [
                 '',
@@ -89,34 +97,31 @@ export class CustomerEmailsComponent {
     }
 
     ngOnInit(): void {
-        this.dataSource.data = this.emailsList;
+        if (
+            this.customerAccountService.editCrateUser &&
+            this.customerAccountService.editCrateUser.user
+        ) {
+            console.log(
+                this.customerAccountService.editCrateUser.user,
+                'hello account in email'
+            );
+            this.accountNumber =
+                this.customerAccountService.editCrateUser.user.AccountNumber;
+            console.log(this.accountNumber, 'aaaa');
+        }
+
+        this.getEmailListByAccount();
     }
 
-    // addEmail(): void {
-    //     if (this.emailForm.invalid) {
-    //         return;
-    //     }
-
-    //     if (this.emailForm.value) {
-    //         this.newEmail = this.emailForm.value.email.trim();
-    //     }
-
-    //     if (this.newEmail) {
-    //         const newId = this.emailsList.length + 1;
-    //         this.emailsList.push({ id: newId, email: this.newEmail });
-    //         this.dataSource.data = this.emailsList;
-    //         this.emailForm.reset();
-    //         this.snackbar.success('Email created successfully.');
-    //     }
-    // }
     addEmail(): void {
         if (this.emailForm.invalid) {
             return;
         }
 
         this.newEmail = this.emailForm.value.email.trim();
+        console.log('email to add in api is:', this.newEmail);
 
-        const emailExists = this.emailsList.some(
+        const emailExists = this.emailsListOfAccount.some(
             (item) => item.email.toLowerCase() === this.newEmail.toLowerCase()
         );
 
@@ -125,39 +130,73 @@ export class CustomerEmailsComponent {
                 'Email already exists. Please use a different email.'
             );
         } else {
-            const newId = this.emailsList.length + 1;
-            this.emailsList.push({ id: newId, email: this.newEmail });
-            this.dataSource.data = this.emailsList;
-            this.emailForm.reset();
-            this.snackbar.success('Email created successfully.');
+            this._spinner.show();
+            this.emailToAdd = {
+                id: 0,
+                accountNumber: this.accountNumber,
+                email: this.newEmail,
+            };
+
+            this.customerAccountService
+                .createEditEmailForAccount(this.emailToAdd)
+                .then((response) => {
+                    this.emailForm.reset();
+                    this.snackbar.success('Email created successfully.');
+                    this.getEmailListByAccount();
+                    this._spinner.hide();
+                })
+                .catch((e) => {
+                    this._spinner.hide();
+                    // console.log(e.error.message, 'error');
+                });
         }
     }
 
     editRow(rowId: number): void {
         this.editRowId = rowId;
-        const emailToEdit = this.emailsList.find(
+        const emailToEdit = this.emailsListOfAccount.find(
             (item) => item.id === rowId
         )?.email;
         this.emailControl.patchValue(emailToEdit);
     }
 
     saveEditedEmail(id: number): void {
+        console.log(this.dataSource.data);
         this.editedEmail = this.emailControl.value;
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (this.editedEmail && emailRegex.test(this.editedEmail)) {
-            const emailExists = this.emailsList.some(
+            const emailExists = this.emailsListOfAccount.some(
                 (item) =>
                     item.email.toLowerCase() ===
                         this.editedEmail.toLowerCase() && item.id !== id
             );
             if (!emailExists) {
-                const index = this.emailsList.findIndex(
+                const index = this.emailsListOfAccount.findIndex(
                     (item) => item.id === id
                 );
                 if (index !== -1) {
-                    this.emailsList[index].email = this.editedEmail;
-                    this.cancelEdit();
-                    this.snackbar.success('Email updated successfully.');
+                    this.emailToEdit = {
+                        id: id,
+                        accountNumber: this.accountNumber,
+                        email: this.editedEmail,
+                    };
+                    console.log(this.emailToEdit, 'Email object');
+
+                    this._spinner.show();
+                    this.customerAccountService
+                        .createEditEmailForAccount(this.emailToEdit)
+                        .then((response) => {
+                            this.cancelEdit();
+                            this.snackbar.success(
+                                'Email updated successfully.'
+                            );
+                            this.getEmailListByAccount();
+                            this._spinner.hide();
+                        })
+                        .catch((e) => {
+                            this._spinner.hide();
+                            // console.log(e.error.message, 'error');
+                        });
                 }
             } else {
                 this.snackbar.error(
@@ -173,24 +212,44 @@ export class CustomerEmailsComponent {
     }
 
     deleteEmail(rowId: number): void {
-        const index = this.emailsList.findIndex((item) => item.id === rowId);
+        const index = this.emailsListOfAccount.findIndex(
+            (item) => item.id === rowId
+        );
         if (index !== -1) {
-            this.emailsList.splice(index, 1);
-            this.dataSource.data = this.emailsList;
-            this.snackbar.success('Email deleted successfully.');
+            this._spinner.show();
+            this.customerAccountService
+                .deleteEmailForAccount(rowId)
+                .then((response) => {
+                    // console.log(response.message);
+
+                    this.snackbar.success('Email deleted successfully.');
+                    this.getEmailListByAccount();
+                    this._spinner.hide();
+                })
+                .catch((e) => {
+                    this._spinner.hide();
+                    // console.log(e.error.message, 'error');
+                });
         }
     }
 
-    // Method to generate a random color
-    getRandomColor(): string {
-        // Generate a random hex color code
-        return '#' + Math.floor(Math.random() * 16777215).toString(16);
-    }
+    getEmailListByAccount() {
+        this._spinner.show();
+        this.customerAccountService
+            .getEmailsByAccount(this.accountNumber)
+            .then((response) => {
+                console.log(
+                    'Responce from getEmailListByAccount()',
+                    response.data
+                );
 
-    // Method to apply random background color to each row
-    getRowBackgroundColor(row: any): any {
-        return {
-            'background-color': this.getRandomColor(),
-        };
+                this.dataSource.data = response.data;
+                this.emailsListOfAccount = response.data;
+                this._spinner.hide();
+            })
+            .catch((e) => {
+                this._spinner.hide();
+                // console.log(e.error.message, 'error');
+            });
     }
 }
