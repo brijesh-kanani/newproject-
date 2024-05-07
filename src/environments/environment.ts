@@ -11,21 +11,20 @@ export const environment = {
     // murl: 'http://192.168.1.165:88',
     // url: 'http://115.244.148.118:8186',
     // url: 'http://192.168.1.146:5566',
-    receivingUrl:window["env"]["receivingUrl"],
-    url: window["env"]["apiUrl"],
-    hUrl: window["env"]["hUrl"],
-    phUrl: window["env"]["phUrl"],
-    csurl: window["env"]["csurl"],
-    inProgressTime: window["env"]["inProgressTime"],
-    reUploadUrl: window["env"]["reUploadUrl"],
-    refreshTimeForFilelog: window["env"]["refreshTimeForFilelog"],
+    receivingUrl: window['env']['receivingUrl'],
+    url: window['env']['apiUrl'],
+    hUrl: window['env']['hUrl'],
+    phUrl: window['env']['phUrl'],
+    csurl: window['env']['csurl'],
+    inProgressTime: window['env']['inProgressTime'],
+    reUploadUrl: window['env']['reUploadUrl'],
+    refreshTimeForFilelog: window['env']['refreshTimeForFilelog'],
+    reportingUrl: window['env']['reportingUrl'],
     // url: 'https://fbsgateway.greenmushroom-bbce887c.australiaeast.azurecontainerapps.io',
     // mrl: 'http://192.168.1.165:8001',
     // url: 'https://fbsgateway.greenmushroom-bbce887c.australiaeast.azurecontainerapps.io/gateway',
     // murl: 'http://115.244.148.118:8187',
     tokenKey: 'accessToken',
-
-
 };
 
 /*

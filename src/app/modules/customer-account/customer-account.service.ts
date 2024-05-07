@@ -277,7 +277,7 @@ export class CustomerAccountService {
         return new Promise((resolve, reject) => {
             this.http
                 .get(
-                    `http://192.168.1.51:8081/api/Job/GetJobsByAccount?accountId=${data}`
+                    `${environment.reportingUrl}/api/Job/GetJobsByAccount?accountId=${data}`
                 )
                 .subscribe((response: any) => {
                     resolve(response);
@@ -289,7 +289,7 @@ export class CustomerAccountService {
         return new Promise((resolve, reject) => {
             this.http
                 .get(
-                    `http://192.168.1.51:8081/api/Account/GetEmail?accountId=${data}`
+                    `${environment.reportingUrl}/api/Account/GetEmail?accountId=${data}`
                 )
                 .subscribe((response: any) => {
                     resolve(response);
@@ -301,7 +301,7 @@ export class CustomerAccountService {
         return new Promise((resolve, reject) => {
             this.http
                 .post(
-                    `http://192.168.1.51:8081/api/Account/CreateUpdateEmail`,
+                    `${environment.reportingUrl}/api/Account/CreateUpdateEmail`,
                     data
                 )
                 .subscribe((response: any) => {
@@ -314,7 +314,7 @@ export class CustomerAccountService {
         return new Promise((resolve, reject) => {
             this.http
                 .delete(
-                    `http://192.168.1.51:8081/api/Account/DeleteEmail?id=${data}`
+                    `${environment.reportingUrl}/api/Account/DeleteEmail?id=${data}`
                 )
                 .subscribe((response: any) => {
                     resolve(response);

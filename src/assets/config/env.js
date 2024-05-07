@@ -11,4 +11,6 @@
     // window["env"]["hUrl"] = "http://115.244.148.118:3002" || "default";   // fileprocesser url
     // window["env"]["csurl"] = "http://192.168.1.146:5544" || "default";
     // window["env"]["apiUrl"] = "https://fbsgateway.greenmushroom-bbce887c.australiaeast.azurecontainerapps.io" || "default";
+    window["env"]["reportingUrl"] = " http://192.168.1.51:8081" || "default";   // reporting url
   })(this);
+    // http://192.168.1.51:8081/api/Account/GetEmail?accountId=1083
