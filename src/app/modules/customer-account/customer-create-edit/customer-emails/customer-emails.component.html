@@ -26,16 +26,11 @@
                                     "
                                     >Invalid email format</span
                                 >
-                                <div
-                                    *ngIf="
-                                        emailForm.controls.email.hasError(
-                                            'emailExists'
-                                        ) && emailForm.controls.email.touched
-                                    "
-                                >
-                                    Email already exists. Please use a different
+                                <!-- 
+                                <span *ngIf="emailAlreadyExistsInList">
+                                    Email already exists. Please use diffrent
                                     email.
-                                </div>
+                                </span> -->
                             </mat-error>
 
                             <button
@@ -204,8 +199,16 @@
                             ></mat-header-row>
                             <mat-row
                                 *matRowDef="let row; columns: displayedColumns"
-                            ></mat-row>
-                            <!-- [ngStyle]="getRowBackgroundColor(row)" -->
+                                [ngStyle]="{
+                                    'background-color':
+                                        getRowBackgroundColor(row),
+                                    '--dynamicColor':
+                                        getRowBackgroundColor(row),
+                                    color: white
+                                }"
+                            >
+                                ></mat-row
+                            >
                         </mat-table>
                     </div>
                 </div>

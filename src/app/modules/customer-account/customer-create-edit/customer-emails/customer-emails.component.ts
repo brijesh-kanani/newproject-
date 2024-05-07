@@ -72,7 +72,8 @@ export class CustomerEmailsComponent {
     newEmail: string = '';
     editRowId: number = -1;
     editedEmail: any;
-    emailExists: boolean;
+    // emailExists: boolean;
+    emailAlreadyExistsInList: boolean = false;
 
     constructor(
         private fb: FormBuilder,
@@ -104,13 +105,8 @@ export class CustomerEmailsComponent {
             this.customerAccountService.editCrateUser &&
             this.customerAccountService.editCrateUser.user
         ) {
-            // console.log(
-            //     this.customerAccountService.editCrateUser.user,
-            //     'hello account in email'
-            // );
             this.accountNumber =
                 this.customerAccountService.editCrateUser.user.AccountNumber;
-            console.log(this.accountNumber, 'aaaa');
         }
 
         this.getEmailListByAccount();
@@ -123,16 +119,22 @@ export class CustomerEmailsComponent {
 
         this.newEmail = this.emailForm.value.email.trim();
         console.log('email to add in api is:', this.newEmail);
-
-        const emailExists = this.emailsListOfAccount.some(
-            (item) => item.email.toLowerCase() === this.newEmail.toLowerCase()
-        );
+        let emailExists;
+        if (this.emailsListOfAccount.length > 0) {
+            emailExists = this.emailsListOfAccount.some(
+                (item) =>
+                    item.email.toLowerCase() === this.newEmail.toLowerCase()
+            );
+        }
 
         if (emailExists) {
             this.snackbar.error(
                 'Email already exists. Please use a different email.'
             );
+            // this.emailAlreadyExistsInList = true;
         } else {
+            // this.emailAlreadyExistsInList = false;
+
             this._spinner.show();
             this.emailToAdd = {
                 id: 0,
@@ -177,6 +179,8 @@ export class CustomerEmailsComponent {
                 );
             }
             if (!emailExists) {
+                // this.emailAlreadyExistsInList = false;
+
                 const index = this.emailsListOfAccount.findIndex(
                     (item) => item.id === id
                 );
@@ -205,10 +209,10 @@ export class CustomerEmailsComponent {
                         });
                 }
             } else {
+                // this.emailAlreadyExistsInList = true;
                 this.snackbar.error(
                     'Email already exists. Please use a different email.'
                 );
-                this.emailExists = true;
             }
         } else {
             // this.snackbar.error('Invalid email.');
@@ -242,21 +246,29 @@ export class CustomerEmailsComponent {
 
     getEmailListByAccount() {
         this._spinner.show();
-        this.customerAccountService
-            .getEmailsByAccount(this?.accountNumber)
-            .then((response) => {
-                console.log(
-                    'Responce from getEmailListByAccount()',
-                    response.data
-                );
-
-                this.dataSource.data = response.data;
-                this.emailsListOfAccount = response.data;
-                this._spinner.hide();
-            })
-            .catch((e) => {
-                this._spinner.hide();
-                // console.log(e.error.message, 'error');
-            });
+        if (this.accountNumber) {
+            this.customerAccountService
+                .getEmailsByAccount(this.accountNumber)
+                .then((response) => {
+                    this.dataSource.data = response.data;
+                    this.emailsListOfAccount = response.data;
+                    this._spinner.hide();
+                })
+                .catch((e) => {
+                    this._spinner.hide();
+                    // console.log(e.error.message, 'error');
+                });
+        }
+    }
+    colorMap: { [key: number]: string } = {};
+    getRowBackgroundColor(row: any): string {
+        if (!this.colorMap[row.id]) {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            this.colorMap[row.id] = `rgb(${r}, ${g}, ${b})`;
+        }
+        // console.log(this.colorMap[row.id]);
+        return this.colorMap[row.id];
     }
 }

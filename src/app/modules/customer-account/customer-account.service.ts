@@ -271,7 +271,6 @@ export class CustomerAccountService {
                 }, reject);
         });
     }
-    // http://192.168.1.51:8081/api/Account/GetEmail?accountId=1083
 
     getJobsByAccount(data: any): Promise<any> {
         return new Promise((resolve, reject) => {

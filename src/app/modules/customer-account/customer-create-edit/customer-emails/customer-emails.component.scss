@@ -19,3 +19,9 @@
     /* border: 2px solid hotpink; */
     min-width: 250px;
 }
+
+
+
+.theme-amber.light .mdc-data-table__row:hover {
+    background-color: var(--dynamicColor) !important;
+}

@@ -76,7 +76,6 @@ export class ReporterComponent {
         ) {
             this.accountNumber =
                 this.customerAccountService.editCrateUser.user.AccountNumber;
-            console.log(this.accountNumber, 'aaaa');
         }
 
         this.getJobForAccount();
@@ -186,16 +185,18 @@ export class ReporterComponent {
     }
     editJob() {}
     getJobForAccount() {
-        this._spinner.show();
-        this.customerAccountService
-            .getJobsByAccount(this?.accountNumber)
-            .then((response) => {
-                this.dataSource.data = response.data;
-                this._spinner.hide();
-            })
-            .catch((e) => {
-                this._spinner.hide();
-                // console.log(e.error.message, 'error');
-            });
+        if (this.accountNumber) {
+            this._spinner.show();
+            this.customerAccountService
+                .getJobsByAccount(this.accountNumber)
+                .then((response) => {
+                    this.dataSource.data = response.data;
+                    this._spinner.hide();
+                })
+                .catch((e) => {
+                    this._spinner.hide();
+                    // console.log(e.error.message, 'error');
+                });
+        }
     }
 }

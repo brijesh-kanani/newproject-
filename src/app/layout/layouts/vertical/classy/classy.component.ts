@@ -1,5 +1,11 @@
 import { NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -77,7 +83,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     toolTipFlag: boolean = false;
     dialogRef: any;
     countDown: any = 0;
-    intervalId: any
+    intervalId: any;
 
     /**
      * Constructor
@@ -92,6 +98,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         public matsnackBar: MatSnackBar,
         public dashboardService: DashboardService,
+        private cdr: ChangeDetectorRef
     ) {
         this.snackBar = new SnackBar(matsnackBar);
     }
@@ -117,20 +124,20 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setHeaderTitle();
 
-        // for count down 
+        // for count down
         this.dashboardService.countDown.subscribe((count: any) => {
             if (this.intervalId) {
-                clearInterval(this.intervalId)
+                clearInterval(this.intervalId);
             }
-            this.countDown = count
+            this.countDown = count;
             this.intervalId = setInterval(() => {
                 if (this.countDown > 1) {
-                    this.countDown = this.countDown - 1
+                    this.countDown = this.countDown - 1;
                 } else {
-                    this.countDown = count
+                    this.countDown = count;
                 }
-            }, 1000)
-        })
+            }, 1000);
+        });
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -171,6 +178,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
             });
     }
 
+    ngAfterViewInit(): void {
+        this.cdr.detectChanges();
+    }
     setHeaderTitle() {
         let currentUrl = this._router.url;
         this._router.events.subscribe((event: any) => {
@@ -179,20 +189,15 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
             }
             if (currentUrl == '/dashboard') {
                 this.headerName = 'Dashboard';
-            }
-            else if (currentUrl == '/accounts') {
+            } else if (currentUrl == '/accounts') {
                 this.headerName = 'Accounts';
-            }
-            else if (currentUrl == '/file-logs') {
+            } else if (currentUrl == '/file-logs') {
                 this.headerName = 'File Logs';
-            }
-            else if (currentUrl == '/file-logs/view-log') {
+            } else if (currentUrl == '/file-logs/view-log') {
                 this.headerName = 'View File Logs';
-            }
-            else if (currentUrl == '/accounts/details') {
+            } else if (currentUrl == '/accounts/details') {
                 this.headerName = 'Accounts Details';
-            }
-            else if (currentUrl == '/configurations') {
+            } else if (currentUrl == '/configurations') {
                 this.headerName = 'Configurations';
             } else if (currentUrl == '/reports/batches') {
                 this.headerName = 'Batches';
@@ -217,7 +222,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
         if (this.intervalId) {
-            clearInterval(this.intervalId)
+            clearInterval(this.intervalId);
         }
     }
 
