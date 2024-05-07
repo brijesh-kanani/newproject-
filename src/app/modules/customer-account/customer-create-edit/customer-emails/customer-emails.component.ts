@@ -22,6 +22,8 @@ import { SnackBar } from 'app/layout/common/snack-bar/snack-bar.class';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AngularCommonModule } from 'app/mock-api/common/angular-common.modules';
 import { CustomerAccountService } from '../../customer-account.service';
+import { map } from 'lodash';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 interface EmailItem {
     id: number;
@@ -70,6 +72,7 @@ export class CustomerEmailsComponent {
     newEmail: string = '';
     editRowId: number = -1;
     editedEmail: any;
+    emailExists: boolean;
 
     constructor(
         private fb: FormBuilder,
@@ -101,10 +104,10 @@ export class CustomerEmailsComponent {
             this.customerAccountService.editCrateUser &&
             this.customerAccountService.editCrateUser.user
         ) {
-            console.log(
-                this.customerAccountService.editCrateUser.user,
-                'hello account in email'
-            );
+            // console.log(
+            //     this.customerAccountService.editCrateUser.user,
+            //     'hello account in email'
+            // );
             this.accountNumber =
                 this.customerAccountService.editCrateUser.user.AccountNumber;
             console.log(this.accountNumber, 'aaaa');
@@ -165,11 +168,14 @@ export class CustomerEmailsComponent {
         this.editedEmail = this.emailControl.value;
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (this.editedEmail && emailRegex.test(this.editedEmail)) {
-            const emailExists = this.emailsListOfAccount.some(
-                (item) =>
-                    item.email.toLowerCase() ===
-                        this.editedEmail.toLowerCase() && item.id !== id
-            );
+            let emailExists;
+            if (this.emailsListOfAccount.length > 0) {
+                emailExists = this.emailsListOfAccount.some(
+                    (item) =>
+                        item.email.toLowerCase() ===
+                            this.editedEmail.toLowerCase() && item.id !== id
+                );
+            }
             if (!emailExists) {
                 const index = this.emailsListOfAccount.findIndex(
                     (item) => item.id === id
@@ -180,7 +186,7 @@ export class CustomerEmailsComponent {
                         accountNumber: this.accountNumber,
                         email: this.editedEmail,
                     };
-                    console.log(this.emailToEdit, 'Email object');
+                    // console.log(this.emailToEdit, 'Email object');
 
                     this._spinner.show();
                     this.customerAccountService
@@ -202,6 +208,7 @@ export class CustomerEmailsComponent {
                 this.snackbar.error(
                     'Email already exists. Please use a different email.'
                 );
+                this.emailExists = true;
             }
         } else {
             // this.snackbar.error('Invalid email.');
@@ -236,7 +243,7 @@ export class CustomerEmailsComponent {
     getEmailListByAccount() {
         this._spinner.show();
         this.customerAccountService
-            .getEmailsByAccount(this.accountNumber)
+            .getEmailsByAccount(this?.accountNumber)
             .then((response) => {
                 console.log(
                     'Responce from getEmailListByAccount()',

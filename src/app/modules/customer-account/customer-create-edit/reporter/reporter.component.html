@@ -1,0 +1,149 @@
+<div id="reporter" class="flex flex-col flex-auto min-w-0">
+    <div>
+        <div id="reporter" class="flex flex-col flex-auto min-w-0">
+            <!-- List Page -->
+            <div class="flex-auto mb-4 ml-6 mr-6 mt-4" *ngIf="jobListShow">
+                <fieldset>
+                    <legend>
+                        <h3 style="font-weight: 600; padding: 0px 4px">
+                            Job List
+                        </h3>
+                    </legend>
+                    <!-- <h3 class="bold text-4xl">Jobs List</h3> -->
+                    <div>
+                        <!-- <app-file-log-filter (filtersApplied)="applyFileLogFilters($event)"></app-file-log-filter> -->
+                    </div>
+
+                    <!-- <div class="flex justify-start space-x-2 mr-6 mt-4">
+                    <button mat-raised-button color="primary" (click)="getFileLogList()">Refresh</button>
+                </div> -->
+                    <!-- <div class="mt-4"> -->
+                    <div class="overflow-x-auto">
+                        <table
+                            mat-table
+                            [dataSource]="dataSource"
+                            class="table"
+                            matSort
+                        >
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="fileNameOnly">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                >
+                                    Job Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <!-- {{ element?.FileName }} -->
+                                    {{ element.title }}
+                                </td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="customer">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Name</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.Customer}}
+                                </td>
+                            </ng-container> -->
+                            <!--
+                            <ng-container matColumnDef="AccountName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element?.Data?.AccountName}}
+                                </td>
+                            </ng-container> -->
+
+                            <ng-container matColumnDef="JobTypeId">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                >
+                                    Job Type
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.JobTypeId || "--" }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Weight Column -->
+                            <!-- <ng-container matColumnDef="phoneNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Mapping </th>
+                                <td mat-cell *matCellDef="let element"> {{element.mapping}} </td>
+                            </ng-container> -->
+
+                            <!-- Symbol Column -->
+                            <!-- <ng-container matColumnDef="active">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-icon class="active" *ngIf='element.active'>check_circle</mat-icon>
+                                <mat-icon class="deactive" *ngIf='!element.active'>cancel</mat-icon>
+                            </td>
+                        </ng-container> -->
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th
+                                    class="w-10"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                >
+                                    Action
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon
+                                        class="cursor-pointer"
+                                        matTooltip="Edit Job"
+                                        (click)="editJob(element)"
+                                        >edit</mat-icon
+                                    >
+                                    <!-- <button mat-icon-button  aria-label="Actions">
+                                        <mat-icon (click)="viewAccount(element)">visibility</mat-icon>
+                                    </button> -->
+                                    <!-- <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="viewAccount(element)">
+                                            <mat-icon>visibility</mat-icon> View
+                                        </button>
+
+                                        <button mat-menu-item (click)="viewFileLog(element)">
+                                            <mat-icon>file_copy</mat-icon> File Log
+                                        </button>
+                                    </mat-menu> -->
+                                </td>
+                            </ng-container>
+
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
+                        </table>
+                    </div>
+                    <!-- <mat-paginator [pageSizeOptions]="[10, 20,30,50,100,500]" showFirstLastButtons
+                        aria-label="Select page of periodic elements" (page)="onPageChange($event)"
+                        [length]="totalItemCount">
+                    </mat-paginator> -->
+                    <!-- </div> -->
+
+                    <div class="fixed bottom-0 right-0 m-4">
+                        <div
+                            (click)="createJob()"
+                            matTooltip="Create Job"
+                            class="flex items-center justify-center w-12 h-12 bg-orange-500 rounded-full shadow-lg cursor-pointer"
+                        >
+                            <mat-icon class="text-white text-3xl">add</mat-icon>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <!-- Create Edit -->
+            <app-create-edit-reporter
+                *ngIf="createEditShow"
+            ></app-create-edit-reporter>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<!-- <fieldset>
+  <legend> -->
+
+<div class="flex justify-between items-center">
+    <div class="ml-4">
+        <h3 style="font-weight: 700; padding:0px 4px" class="text-xl">Add Jobs</h3>
+    </div>
+    <div class="mr-4">
+
+        <button
+            class="flex items-center justify-center  bg-black text-white px-4 py-2 rounded-lg shadow-lg cursor-pointer"
+            (click)="listPage()"
+            mat-button>
+            Back
+        </button>
+    </div>
+</div>
+
+<!-- </legend> -->
+<!-- <h3 class="bold text-3xl">Add/Edit Jobs</h3> -->
+<div class="mat-elevation-z3 m-4">
+    <mat-horizontal-stepper>
+        <!-- Step 1 -->
+        <mat-step label="Job Configurations">
+            <!-- Content of Step 1 -->
+            <app-job-configurations></app-job-configurations>
+            <!-- Add your form fields or other content here -->
+        </mat-step>
+
+        <!-- Step 2 -->
+        <mat-step label="Add reports">
+            <!-- Content of Step 2 -->
+            <app-add-reports></app-add-reports>
+            <!-- Add your form fields or other content here -->
+        </mat-step>
+
+        <!-- Step 3 -->
+        <mat-step label="Scheduler">
+            <!-- Content of Step 3 -->
+            <app-scheduler></app-scheduler>
+            <!-- Add your form fields or other content here -->
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>
+<!-- </fieldset> -->

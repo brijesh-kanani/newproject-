@@ -26,6 +26,16 @@
                                     "
                                     >Invalid email format</span
                                 >
+                                <div
+                                    *ngIf="
+                                        emailForm.controls.email.hasError(
+                                            'emailExists'
+                                        ) && emailForm.controls.email.touched
+                                    "
+                                >
+                                    Email already exists. Please use a different
+                                    email.
+                                </div>
                             </mat-error>
 
                             <button
@@ -52,10 +62,10 @@
                 </form>
 
                 <div class="">
-                    <div class="overflow-x-auto border">
+                    <div class="overflow-x-auto border mt-8">
                         <mat-table
                             [dataSource]="dataSource"
-                            class="mat-table w-full text-center mt-4 border"
+                            class="mat-table w-full text-center border"
                         >
                             <div>
                                 <ng-container matColumnDef="id">

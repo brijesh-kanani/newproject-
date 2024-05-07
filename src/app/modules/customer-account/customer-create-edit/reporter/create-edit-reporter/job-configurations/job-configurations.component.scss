@@ -1,0 +1,42 @@
+#batches {
+    ::ng-deep .mat-expansion-panel-header-title {
+        color: white !important;
+    }
+}
+
+.txt {
+    font-weight: 700;
+    max-width: 40%;
+}
+
+
+.tab-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.account-row {
+    /* border: 2px solid hotpink; */
+    min-width: 50%;
+    width: 50%;
+    padding: 10px;
+}
+
+.main-content {
+    width: 50%;
+}
+@media (max-width: 600px) {
+    .job-tab-content {
+        display: flex;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .job-row {
+        width: 100%;
+    }
+
+    .job-bold-style {
+        min-width: 40%;
+    }
+}

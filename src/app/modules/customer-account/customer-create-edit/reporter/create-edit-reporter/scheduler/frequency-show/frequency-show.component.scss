@@ -1,0 +1,36 @@
+.vertical-line {
+    width: 1px;
+    min-height: 400px;
+    background-color: black;
+    max-height: 700px;
+}
+
+.vertical-line-year {
+    width: 1px;
+    min-height: 400px;
+    background-color: black;
+    max-height: 700px;
+}
+
+.icon-time {
+    position: relative;
+    top: -13px;
+    right: 13px;
+    height: 1px;
+    width: 1px !important;
+}
+
+.custom-top {
+    top: -20px !important; /* Adjust this value to move the button up or down */
+}
+
+.custom-right {
+    right: -20px !important; /* Adjust this value to move the button left or right */
+}
+
+.err-position {
+    margin-top: -16px;
+}
+.negative-margin-col {
+    margin-left: -13%;
+}

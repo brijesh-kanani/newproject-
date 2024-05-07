@@ -35,6 +35,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ReceivingMappingComponent } from './receiving-mapping/receiving-mapping.component';
 import { CustomerReportsComponent } from './customer-reports/customer-reports.component';
 import { CustomerEmailsComponent } from './customer-emails/customer-emails.component';
+import { ReporterComponent } from './reporter/reporter.component';
 @Component({
     selector: 'app-customer-create-edit',
     templateUrl: './customer-create-edit.component.html',
@@ -65,6 +66,7 @@ import { CustomerEmailsComponent } from './customer-emails/customer-emails.compo
         ReceivingMappingComponent,
         CustomerReportsComponent,
         CustomerEmailsComponent,
+        ReporterComponent,
     ],
 })
 export class CustomerCreateEditComponent {

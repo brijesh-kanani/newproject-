@@ -1,0 +1,120 @@
+<div class="relative mx-auto text-center w-full">
+    <div class="border-2">
+        <div class="absolute custom-top custom-right">
+            <button
+                mat-icon-button
+                class="icon-time-save"
+                matTooltip="Close"
+                matTooltipPosition="below"
+                (click)="closeSubRowYear()"
+            >
+                <mat-icon class="bg-slate-300 rounded-full text-lg"
+                    >close</mat-icon
+                >
+            </button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-center m-3">
+            <div
+                class=""
+                [ngClass]="
+                    inputFrom === undefined ? 'col-span-1' : 'col-span-12'
+                "
+            >
+                <mat-label>Hours</mat-label>
+                <div>
+                    <mat-icon
+                        style="font-size: 3.5rem"
+                        class="mt-2 cursor-pointer"
+                        (click)="hoursTimeArrowYear(inputValue, 'increment')"
+                    >
+                        arrow_drop_up
+                    </mat-icon>
+                </div>
+                <mat-form-field
+                    [ngClass]="inputFrom === undefined ? 'w-2/3' : 'w-2/4'"
+                >
+                    <div class="flex items-center">
+                        <input
+                            matInput
+                            placeholder=""
+                            (input)="
+                                hoursTimeArrowYear(
+                                    inputValue,
+                                    'setHours',
+                                    $event
+                                )
+                            "
+                            [value]="checkValue(inputValue, 'hours')"
+                            class="flex-grow no-spinner"
+                        />
+                        <!-- type="number" -->
+                    </div>
+                </mat-form-field>
+                <div>
+                    <mat-icon
+                        style="font-size: 3.5rem"
+                        class="cursor-pointer mb-2"
+                        (click)="hoursTimeArrowYear(inputValue, 'decrement')"
+                    >
+                        arrow_drop_down
+                    </mat-icon>
+                </div>
+            </div>
+            <div class="col-span-1" *ngIf="inputFrom === undefined">
+                <mat-label>Minutes</mat-label>
+                <div>
+                    <mat-icon
+                        style="font-size: 3.5rem"
+                        class="mt-2 cursor-pointer"
+                        (click)="
+                            hoursTimeArrowYear(
+                                inputValue,
+                                'increment',
+                                '',
+                                'minutes'
+                            )
+                        "
+                    >
+                        arrow_drop_up
+                    </mat-icon>
+                </div>
+                <mat-form-field class="w-2/3" style="margin-bottom: -12px">
+                    <div class="flex items-center">
+                        <input
+                            matInput
+                            placeholder=""
+                            value="00"
+                            [value]="checkValue(inputValue, 'minutes')"
+                            (input)="
+                                hoursTimeArrowYear(
+                                    inputValue,
+                                    'setMinutes',
+                                    $event,
+                                    'minutes'
+                                )
+                            "
+                            class="flex-grow no-spinner"
+                            type="number"
+                        />
+                    </div>
+                </mat-form-field>
+                <div>
+                    <mat-icon
+                        style="font-size: 3.5rem"
+                        class="mb-2 cursor-pointer"
+                        (click)="
+                            hoursTimeArrowYear(
+                                inputValue,
+                                'decrement',
+                                '',
+                                'minutes'
+                            )
+                        "
+                    >
+                        arrow_drop_down
+                    </mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
